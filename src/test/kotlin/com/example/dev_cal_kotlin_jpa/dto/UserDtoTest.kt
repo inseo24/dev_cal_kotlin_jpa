@@ -14,9 +14,10 @@ class UserDtoTest {
         val userDto = UserDto(
                 name = "서인",
                 email = "jnh@naver.com",
-                password = "1234=ls",
+                password = "1234@tjdls",
                 mobileNumber = "010-1234-1281"
         )
+
 
         val result = validator.validate(userDto)
 
