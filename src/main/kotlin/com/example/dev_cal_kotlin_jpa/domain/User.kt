@@ -9,14 +9,14 @@ import javax.persistence.Table
 @Table(name = "user")
 data class User (
 
-        var name : String?=null,
+        val name : String,
 
         @Column(nullable = false, unique = true)
-        var email : String?=null,
+        val email : String,
 
-        var password : String?=null,
+        var password : String,
 
         @JsonProperty("mobile_number")
-        var mobileNumber: String?=null
+        var mobileNumber: String
 
         ) : BaseEntity()

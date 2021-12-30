@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserRepository : JpaRepository<User, Long>{
 
-    fun findAllByEmail(email: String): MutableList<UserDto>
-
+    fun findByEmail(email: String) : User?
 }

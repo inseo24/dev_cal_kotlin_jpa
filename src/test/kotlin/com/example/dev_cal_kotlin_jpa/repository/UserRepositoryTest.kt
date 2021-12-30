@@ -23,12 +23,12 @@ class UserRepositoryTest {
 
     @Test
     fun saveTest() {
-        val user = User().apply {
-            this.email = "jnh@naver.com"
-            this.name = "seoin"
-            this.mobileNumber = "010-1234-1231"
-            this.password = "1234@tjdls"
-        }
+        val user = User(
+                name = "서인",
+                email = "jnh@naver.com",
+                password = "1234@tjdls",
+                mobileNumber = "010-1234-1281"
+        )
 
         var result = userRepository.save(user)
 
@@ -44,24 +44,24 @@ class UserRepositoryTest {
     @Test
     fun saveAllTest() {
         val userList = mutableListOf(
-                User().apply {
-                    this.email = "jnh1@naver.com"
-                    this.name = "seoin"
-                    this.mobileNumber = "010-1234-1231"
-                    this.password = "1234@tjdls"
-                },
-                User().apply {
-                    this.email = "jnh2@naver.com"
-                    this.name = "seoin"
-                    this.mobileNumber = "010-1234-1231"
-                    this.password = "1234@tjdls"
-                },
-                User().apply {
-                    this.email = "jnh3@naver.com"
-                    this.name = "seoin"
-                    this.mobileNumber = "010-1234-5678"
-                    this.password = "1234@tjdls"
-                }
+                User(
+                        name = "서인",
+                        email = "jnh1@naver.com",
+                        password = "1234@tjdls",
+                        mobileNumber = "010-1234-1281"
+                ),
+                User(
+                        name = "서인",
+                        email = "jnh2@naver.com",
+                        password = "1234@tjdls",
+                        mobileNumber = "010-1234-1281"
+                ),
+                User(
+                        name = "서인",
+                        email = "jnh3@naver.com",
+                        password = "1234@tjdls",
+                        mobileNumber = "010-1234-1281"
+                )
 
         )
 
