@@ -16,8 +16,7 @@ class UserService(
         val repo: UserRepository,
         val modelMapper: ModelMapper
 ) {
-    // 고민 : findOne과 겹치는 코드가 많음 + findOne은 없으면 Bad Request 찍히는데 이건 똑같이 수정해도 적용 안됨
-    // 어떻게 수정할 수 있을까~!~!~! try catch를 쓸까 흠 -> 일단 이렇게 해봄
+    // 고민 : findOne이랑 겹치는 코드가 많음 ^ㅠ^
     fun create(userDto: UserDto): ResponseEntity<Any> {
         return try {
             val result = repo.save(modelMapper.map(userDto, User::class.java))
