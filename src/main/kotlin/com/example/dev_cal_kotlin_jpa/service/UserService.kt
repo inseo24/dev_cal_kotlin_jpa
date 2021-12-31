@@ -37,23 +37,20 @@ class UserService(
     @Transactional
     fun update(userDto: UserDto): ResponseEntity<Any> {
         val user = repo.findByEmail(userDto.email)
-        return if (user != null ) {
-                user.mobileNumber = userDto.mobileNumber
-                user.password = userDto.password
-                ResponseEntity.status(HttpStatus.OK).build()
-            } else {
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        return user?.let {
+            it.mobileNumber = userDto.mobileNumber
+            it.password = userDto.password
+            ResponseEntity.status(HttpStatus.OK).build()
         }
+         ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }
 
     fun delete(email: String): ResponseEntity<Any> {
         val user = repo.findByEmail(email)
-        return if (user != null) {
-            repo.deleteById(user.id)
+        return user?.let {
+            repo.deleteById(it.id)
             ResponseEntity.status(HttpStatus.OK).build()
-        } else {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+        } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }
 
 }
