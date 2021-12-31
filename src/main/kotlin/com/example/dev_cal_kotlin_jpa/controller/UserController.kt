@@ -2,21 +2,24 @@ package com.example.dev_cal_kotlin_jpa.controller
 
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/user")
-class UserController(val service: UserService) {
+class UserController(
+        val service: UserService
+) {
 
     @PostMapping(path = [""])
-    fun create(@Valid @RequestBody userDto: UserDto): UserDto {
+    fun create(@Valid @RequestBody userDto: UserDto): ResponseEntity<Any> {
         return service.create(userDto)
     }
 
     @GetMapping(path = ["/email/{email}"])
-    fun findOne(@PathVariable email: String) : UserDto {
+    fun findOne(@PathVariable email: String) : ResponseEntity<Any> {
         return service.findOne(email)
     }
 

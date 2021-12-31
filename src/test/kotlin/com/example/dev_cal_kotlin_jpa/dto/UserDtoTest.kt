@@ -18,16 +18,12 @@ class UserDtoTest {
                 mobileNumber = "010-1234-1281"
         )
 
-
         val result = validator.validate(userDto)
-
         result.forEach {
             print(it.propertyPath.last().name + " : ")
             println(it.message)
             println(it.invalidValue)
         }
-
         assertThat(result.isEmpty()).isEqualTo(true)
-
     }
 }

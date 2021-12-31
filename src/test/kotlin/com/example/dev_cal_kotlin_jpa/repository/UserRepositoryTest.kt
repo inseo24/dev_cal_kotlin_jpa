@@ -22,7 +22,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun saveTest() {
+    fun saveUserTest() {
         val user = User(
                 name = "서인",
                 email = "jnh@naver.com",
@@ -42,7 +42,7 @@ class UserRepositoryTest {
     }
 
     @Test
-    fun saveAllTest() {
+    fun saveAllUsersTest() {
         val userList = mutableListOf(
                 User(
                         name = "서인",
