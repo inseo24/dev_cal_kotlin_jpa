@@ -3,6 +3,7 @@ package com.example.dev_cal_kotlin_jpa.domain
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -17,6 +18,15 @@ data class User (
         var password : String,
 
         @JsonProperty("mobile_number")
-        var mobileNumber: String
+        var mobileNumber: String,
+
+        @OneToMany(mappedBy = "user")
+        var comments : MutableList<Comment> = mutableListOf(),
+
+        @OneToMany(mappedBy = "user")
+        var boards : MutableList<Board> = mutableListOf(),
+
+        @OneToMany(mappedBy = "user")
+        var events : MutableList<Event> = mutableListOf()
 
         ) : BaseEntity()
