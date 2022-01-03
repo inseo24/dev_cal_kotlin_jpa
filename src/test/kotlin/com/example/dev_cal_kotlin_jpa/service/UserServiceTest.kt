@@ -15,18 +15,27 @@ import org.springframework.boot.test.context.SpringBootTest
 import javax.validation.Validation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mockito.`when`
+import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.http.ResponseEntity
 import javax.transaction.Transactional
-
+import kotlin.reflect.jvm.internal.impl.utils.WrappedValues
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-internal class UserServiceTest @Autowired constructor(
-        @Mock
-        val modelMapper: ModelMapper,
-        @Mock
-        val repo: UserRepository
-) {
+@ExtendWith(MockitoExtension::class)
+internal class UserServiceTest {
+
+    @InjectMocks
+    lateinit var userService: UserService
+    @Mock
+    lateinit var modelMapper: ModelMapper
+
+    @Mock
+    lateinit var repo: UserRepository
 
     val validator = Validation.buildDefaultValidatorFactory().validator
 
@@ -36,23 +45,23 @@ internal class UserServiceTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("createUser 서비스 로직을 검증한다.")
     fun createUser() {
-        val userDto = UserDto(
-                name = "서인",
-                email = "jnh1@naver.com",
-                password = "123tjdls@ls",
-                mobileNumber = "010-1234-1281"
+        val request = UserDto(
+                "인서",
+                "jnh567@naver.com",
+                "123tjdls@",
+                "010-2124-1281"
         )
 
-        val result = validator.validate(userDto)
-        result.forEach {
-            print(it.propertyPath.last().name + " : ")
-            println(it.message)
-            println(it.invalidValue)
-        }
+//
+//        val result = validator.validate(request)
+//        if (result.size != 0) throw RuntimeException("validation error")
+//        else repo.save(modelMapper.map(request, User::class.java))
 
-        if (result.size != 0) throw RuntimeException("validation error")
-        else repo.save(modelMapper.map(userDto, User::class.java))
+        val response = userService.create(request)
+        println(userService.create(request))
+        println(response)
     }
 
     @Test

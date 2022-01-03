@@ -26,6 +26,7 @@ class UserService(
             }
             ResponseEntity.ok().body(response)
         } catch ( e : Exception ) {
+            println(e)
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
 
