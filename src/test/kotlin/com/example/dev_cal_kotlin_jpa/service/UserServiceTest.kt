@@ -59,6 +59,7 @@ internal class UserServiceTest {
 //        if (result.size != 0) throw RuntimeException("validation error")
 //        else repo.save(modelMapper.map(request, User::class.java))
 
+        // NPE 발생 -> source object인 request 가 null 이라는 거 같은데 왜 그러지?
         val response = userService.create(request)
         println(userService.create(request))
         println(response)
