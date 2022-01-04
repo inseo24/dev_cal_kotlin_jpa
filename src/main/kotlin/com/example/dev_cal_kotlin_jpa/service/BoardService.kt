@@ -17,9 +17,6 @@ class BoardService(
         val repo: BoardRepository,
         val modelMapper: ModelMapper
 ) {
-
-
-
         fun create(boardDto: BoardDto, email: String): ResponseEntity<Any> {
                 val user = userRepository.findByEmail(email)
 
@@ -39,8 +36,9 @@ class BoardService(
                         }.toMutableList()
         }
 
-        fun findOne(boardId : Long) : BoardDto {
-                return modelMapper.map(repo.findById(boardId), BoardDto::class.java)
+        fun findOne(id : Long) : BoardDto {
+                val entity = repo.findById(id).orElseThrow()
+                return modelMapper.map(entity, BoardDto::class.java)
         }
 
         fun delete(boardId: Long) : ResponseEntity<Any> {

@@ -22,9 +22,9 @@ class BoardController (
                 return service.findAll()
         }
 
-        @GetMapping(path = ["/{boardId}"])
-        fun findOne(@PathVariable boardId : Long): BoardDto{
-                return service.findOne(boardId)
+        @GetMapping(path = ["/{id}"])
+        fun findOne(@PathVariable id : String): BoardDto{
+                return service.findOne(id.toLong())
         }
 
         @DeleteMapping(path=["/{boardId}"])
