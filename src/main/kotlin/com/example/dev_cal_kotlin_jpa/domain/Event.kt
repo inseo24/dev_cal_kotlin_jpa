@@ -1,7 +1,10 @@
 package com.example.dev_cal_kotlin_jpa.domain
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
@@ -12,7 +15,11 @@ import javax.persistence.Table
 data class Event (
 
         var title : String,
+
+        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
         var start : LocalDateTime,
+
+        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
         var end : LocalDateTime,
 
         var host : String,

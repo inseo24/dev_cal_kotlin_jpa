@@ -8,13 +8,13 @@ import javax.validation.constraints.Size
 
 data class EventDto (
 
-        var id : Long,
+        var id : Long?=null,
 
         @field:NotBlank
         var title : String="",
 
-        var start : LocalDateTime,
-        var end : LocalDateTime,
+        var start : LocalDateTime?=null,
+        var end : LocalDateTime?=null,
 
         var host : String="",
         var timeRequired : String="",
@@ -22,6 +22,12 @@ data class EventDto (
         var limitPersonnel : String="",
         var relatedLink : String=""
 
-)
+){
+        init{
+
+
+        }
+}
+
 
 
