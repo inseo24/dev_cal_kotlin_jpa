@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
 import java.time.LocalDateTime
+import java.util.NoSuchElementException
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 
@@ -50,5 +51,11 @@ class ControllerAdvice {
     @ExceptionHandler(HttpMediaTypeNotAcceptableException::class)
     fun handleHttpMediaTypeNotAcceptableException() : ResponseEntity<Any> {
         return ResponseEntity.ok().build()
+    }
+
+    @ResponseBody
+    @ExceptionHandler(NoSuchElementException::class)
+    fun noSuchElementException() : ResponseEntity<Any> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }
 }
