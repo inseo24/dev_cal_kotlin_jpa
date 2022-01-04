@@ -13,13 +13,13 @@ class ScrapController (
 
 
         @PostMapping(path = ["/{email}/{eventId}"])
-        fun scrap(@PathVariable eventId : Long, @PathVariable email : String) :ResponseEntity<Any> {
-                return service.scrap(eventId, email)
+        fun scrap( @PathVariable email : String, @PathVariable eventId : String) :ResponseEntity<Any> {
+                return service.scrap(email, eventId.toLong())
         }
 
         @DeleteMapping(path = ["/{email}/{eventId}"])
-        fun unscrap(@PathVariable eventId: Long, @PathVariable email: String) : ResponseEntity<Any> {
-                return service.unscrap(eventId, email)
+        fun unscrap(@PathVariable email : String, @PathVariable eventId : String) : ResponseEntity<Any> {
+                return service.unscrap(email, eventId.toLong())
         }
 
         @GetMapping

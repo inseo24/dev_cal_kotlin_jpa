@@ -2,6 +2,7 @@ package com.example.dev_cal_kotlin_jpa.service
 
 import com.example.dev_cal_kotlin_jpa.dto.ScrapDto
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
+import com.example.dev_cal_kotlin_jpa.persistence.EventRepository
 import com.example.dev_cal_kotlin_jpa.persistence.ScrapRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
@@ -15,38 +16,34 @@ import javax.transaction.Transactional
 @Service
 class ScrapService(
         val userRepo: UserRepository,
+        val eventRepository: EventRepository,
         val repo: ScrapRepository,
         val modelMapper: ModelMapper
 ) {
 
     @Transactional
-    fun unscrap(eventId : Long, email : String): ResponseEntity<Any>{
-        val result = userRepo.findByEmail(email)
-        return try {
-            repo.unscrap(eventId, email)
-            val response = ResponseDto<ScrapDto>().apply {
-                this.status = "200 OK"
-                this.data = modelMapper.map(result, UserDto::class.java)
-            }
-            ResponseEntity.ok().body(response)
-        } catch (e : Exception) {
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+    fun unscrap(email : String , eventId : Long ): ResponseEntity<Any>{
+        val user = userRepo.findByEmail(email)
+        val userId = user?.id
+        userId?.let {
+            eventRepository.findById(eventId).orElseThrow()
+
+            repo.unscrap(eventId, userId)
+            return ResponseEntity.ok().build()
+        }?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+
     }
 
     @Transactional
-    fun scrap(eventId: Long, email: String): ResponseEntity<Any>{
-        val result = userRepo.findByEmail(email)
-        return try {
-            repo.scrap(eventId, email)
-            val response = ResponseDto<ScrapDto>().apply {
-                this.status = "200 OK"
-                this.data = modelMapper.map(result, UserDto::class.java)
-            }
-            ResponseEntity.ok().body(response)
-        } catch (e : Exception) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-        }
+    fun scrap(email: String, eventId: Long): ResponseEntity<Any>{
+        val user = userRepo.findByEmail(email)
+        val userId = user?.id
+        userId?.let {
+            eventRepository.findById(eventId).orElseThrow()
+            repo.scrap(eventId, userId)
+            return ResponseEntity.ok().build()
+        }?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+
     }
 
     fun findAll(): MutableList<ScrapDto> {
