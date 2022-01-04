@@ -4,6 +4,7 @@ import com.example.dev_cal_kotlin_jpa.dto.BoardDto
 import com.example.dev_cal_kotlin_jpa.service.BoardService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/board")
@@ -11,9 +12,9 @@ class BoardController (
         val service: BoardService
 ){
 
-        @PostMapping
-        fun create(@RequestBody boardDto: BoardDto) : BoardDto {
-                return service.create(boardDto)
+        @PostMapping(path = ["/{email}"])
+        fun create(@Valid @RequestBody boardDto: BoardDto, @PathVariable email: String) : ResponseEntity<Any> {
+                return service.create(boardDto, email)
         }
 
         @GetMapping

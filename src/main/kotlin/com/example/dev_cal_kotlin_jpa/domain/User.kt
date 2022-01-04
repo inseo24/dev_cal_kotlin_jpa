@@ -1,10 +1,7 @@
 package com.example.dev_cal_kotlin_jpa.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.OneToMany
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -23,7 +20,7 @@ data class User (
         @OneToMany(mappedBy = "user")
         var comments : MutableList<Comment> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
+        @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
         var boards : MutableList<Board> = mutableListOf(),
 
         @OneToMany(mappedBy = "user")

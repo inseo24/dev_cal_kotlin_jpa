@@ -16,7 +16,7 @@ class UserController(
 ) {
 
     @PostMapping(path = [""])
-    fun create(@Valid @RequestBody userDto: UserDto): ResponseEntity<Any> {
+    fun create(@RequestBody userDto: UserDto): ResponseEntity<Any> {
         return service.create(userDto)
     }
 
