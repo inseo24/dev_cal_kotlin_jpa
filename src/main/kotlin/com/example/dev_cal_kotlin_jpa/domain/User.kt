@@ -10,10 +10,10 @@ import javax.persistence.Table
 @Table(name = "user")
 data class User (
 
-        val name : String,
+        var name : String,
 
         @Column(nullable = false, unique = true)
-        val email : String,
+        var email : String,
 
         var password : String,
 

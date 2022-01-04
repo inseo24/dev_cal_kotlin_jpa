@@ -29,7 +29,6 @@ class UserService(
             println(e)
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
-
     }
 
     fun findOne(email: String): ResponseEntity<Any> {

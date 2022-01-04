@@ -43,33 +43,4 @@ class ControllerAdvice {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
     }
-
-    @ExceptionHandler(value = [ConstraintViolationException::class])
-    fun constraintViolationException(e : ConstraintViolationException, request: HttpServletRequest) : ResponseEntity<ErrorResponse>{
-        val errors = mutableListOf<Error>()
-
-        e.constraintViolations.forEach{
-            val field = it.propertyPath.last().name
-            val message = it.message
-
-            val error = Error().apply {
-                this.field = field
-                this.message = message
-                this.value = it.invalidValue
-            }
-            errors.add(error)
-        }
-
-        val errorResponse = ErrorResponse().apply {
-            this.resultCode = "FAIL"
-            this.httpStatus = HttpStatus.BAD_REQUEST.value().toString()
-            this.httpMethod = request.method
-            this.message = "요청에 에러가 발생했습니다."
-            this.path = request.requestURI.toString()
-            this.timestamp = LocalDateTime.now()
-            this.errors = errors
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
-    }
 }

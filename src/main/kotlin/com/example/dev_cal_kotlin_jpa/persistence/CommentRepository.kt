@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 import javax.persistence.Id
 
 // 수정 예정 : @쿼리 -> JPA 어노테이션 찾아볼 예고
-// 인텔리제이 자동 완성으로 boardId : Id가 뜨길래 설정하긴 했는데 원래는 String id로 했던 거라 무슨 차이가 있는지 아직 모르겠음 -> 이것도 추후 공부 후 수정 예정
+// 인텔리제이 자동 완성으로 boardId : Id가 뜨길래 설정하긴 했는데 원래는 String id로 했던 거라 무슨 차이가 있는지 아직 모르겠음 -> 추후 공부 후 수정 예정
 @Repository
 interface CommentRepository : JpaRepository<Comment, Long>{
 

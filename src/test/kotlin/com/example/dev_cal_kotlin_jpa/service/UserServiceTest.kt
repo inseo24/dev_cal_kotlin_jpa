@@ -3,11 +3,11 @@ package com.example.dev_cal_kotlin_jpa.service
 import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
+import net.bytebuddy.matcher.ElementMatchers.any
+import org.aspectj.lang.annotation.Before
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.BeforeEach
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -17,55 +17,99 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mockito.`when`
+import org.mockito.*
+import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import javax.lang.model.element.Element
 import javax.transaction.Transactional
-import kotlin.reflect.jvm.internal.impl.utils.WrappedValues
 
+// when(<MockClass>.method).thenReturn(<Return::class>)
+// 테스트 코드안에 서비스 로직에 mock 인 클래스가 사용하는 부분이 있으면 다 정의해서 리턴해야함
+
+// 1. response 가 responseEntity 가 나오게 해야 하는 건지 잘 모르겠음
+// 2. modelmapper 도 따로 분리해서 하는게 맞는지 같이 하는게 맞는지... 단위 테스트로 나눠서 하라는 얘기가 있어서 나눠서 해봄
+// 3. when thenReturn 에서 thenReturn 으로 객체 리턴은 지정값 외에
+//    새 객체 넣으면 메서드 결과값으로 딱 세팅되게 들어갈 줄 알았는데 그건 아니었음
+// -> 사실상 원하는 값을 정해두고 그걸 return 하는 거 같음?
 @SpringBootTest
 @ExtendWith(MockitoExtension::class)
 internal class UserServiceTest {
 
     @InjectMocks
     lateinit var userService: UserService
+
     @Mock
     lateinit var modelMapper: ModelMapper
 
     @Mock
     lateinit var repo: UserRepository
 
-    val validator = Validation.buildDefaultValidatorFactory().validator
 
     @AfterEach
     private fun cleanUp() {
         repo.deleteAll()
     }
 
+    // 다른 대안(?)
+    // @Spy
+    // lateinit var modelMapper: ModelMapper
+
+    // unnecessary stubbings detected
+    // 불필요한 스터빙을 하지 말라 -> 실제 코드에서 안 쓰이는 코드라서 이런 메시지가 나오는 건가?
+    // lenient()를 사용하면 에러 안 뜨는데 (제약을 좀 허술하게 해서 -> lenient 뜻 자체가 허술한, 느슨한, 관대한)
+    @Test
+    @DisplayName("modelmapper 로직을 검증")
+    fun dtoToEntity() {
+        val userDto = UserDto(
+                "인서",
+                "jnh57@naver.com",
+                "123tjdls@",
+                "010-2124-1281"
+        )
+        var user = User(
+            "인서",
+            "jnh57@naver.com",
+            "123tjdls@",
+            "010-2124-1281"
+        )
+        // 이거 any(UserDto::class.java) 이렇게 해도 되던데? 굳이 안써도 되나?
+        // 다른 것도 그런거 같던데
+        lenient().`when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
+    }
+
+
     @Test
     @DisplayName("createUser 서비스 로직을 검증한다.")
     fun createUser() {
-        val request = UserDto(
+        val user = User(
                 "인서",
-                "jnh567@naver.com",
+                "jnh57@naver.com",
                 "123tjdls@",
                 "010-2124-1281"
         )
 
-//
-//        val result = validator.validate(request)
-//        if (result.size != 0) throw RuntimeException("validation error")
-//        else repo.save(modelMapper.map(request, User::class.java))
+        val userDto = UserDto(
+                "인서",
+                "jnh57@naver.com",
+                "123tjdls@",
+                "010-2124-1281"
+        )
 
-        // NPE 발생 -> source object인 request 가 null 이라는 거 같은데 왜 그러지?
-        val response = userService.create(request)
-        println(userService.create(request))
-        println(response)
+        `when`(repo.save(user)).thenReturn(user)
+        val result = repo.save(user)
+        assertThat(result.name).isEqualTo(user.name)
+
+        val response = userService.create(userDto)
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
     }
 
+
     @Test
+    @DisplayName("find one user 로직 검증")
     fun findOneUser() {
         val user1 =  User(
                 name = "서인1",
@@ -73,33 +117,17 @@ internal class UserServiceTest {
                 password = "1234@tjdls",
                 mobileNumber = "010-7685-1281"
         )
-        val user2 = User(
-                name = "서인2",
-                email = "jnh2@naver.com",
-                password = "12124@tj3ls",
-                mobileNumber = "010-1234-1281"
-        )
-        val user3 = User(
-                name = "서인3",
-                email = "jnh3@naver.com",
-                password = "1234@tjdl23s",
-                mobileNumber = "010-2342-1281"
-        )
+        `when`(repo.findByEmail(user1.email)).thenReturn(user1)
+        val savedUser = repo.findByEmail("jnh1@naver.com")
+        assertThat(savedUser?.email).isEqualTo(user1.email)
 
-        repo.saveAll(mutableListOf(user1, user2, user3))
-
-        val savedUser1 = repo.findByEmail("jnh1@naver.com")
-
-        assertThat(savedUser1?.email).isEqualTo(user1.email)
-        assertThat(savedUser1?.mobileNumber).isEqualTo(user1.mobileNumber)
-        assertThat(savedUser1?.name).isEqualTo(user1.name)
-        assertThat(savedUser1?.password).isEqualTo(user1.password)
-        assertThat(savedUser1?.updatedTime).isNotNull
-        assertThat(savedUser1?.createdTime).isNotNull
+        val response = userService.findOne("jnh1@naver.com")
+        assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
 
     }
 
     @Test
+    @DisplayName("find All users 로직 검증")
     fun findAllUsers() {
         val user1 =  User(
                 name = "서인1",
@@ -120,14 +148,17 @@ internal class UserServiceTest {
                 mobileNumber = "010-2342-1281"
         )
         val users = mutableListOf(user1, user2, user3)
+
         repo.saveAll(users)
-        val userList = repo.findAll()
+        `when`(repo.findAll()).thenReturn(users)
+        var userList = repo.findAll()
         assertThat(userList).isEqualTo(users)
 
     }
 
     @Test
     @Transactional
+    @DisplayName("update user information 로직 검증")
     fun updateUserInfo() {
         val user =  User(
                 name = "서인1",
@@ -135,8 +166,6 @@ internal class UserServiceTest {
                 password = "1234@tjdls",
                 mobileNumber = "010-7685-1281"
         )
-        repo.save(user)
-
         val userDto = UserDto(
                 name = "서인1",
                 email = "jnh1@naver.com",
@@ -144,17 +173,19 @@ internal class UserServiceTest {
                 mobileNumber = "010-5678-1234"
         )
 
-        var user1 = repo.findByEmail(userDto.email)
-        user1?.mobileNumber = userDto.mobileNumber
-        user1?.password = userDto.password
+        `when`(repo.findByEmail((userDto.email))).thenReturn(user)
 
-        var updateUserInfo = user1?.email?.let { repo.findByEmail(it) }
-        assertThat(updateUserInfo?.mobileNumber).isEqualTo(userDto?.mobileNumber)
-        assertThat(updateUserInfo?.password).isEqualTo(userDto?.password)
+        user.mobileNumber = userDto.mobileNumber
+        user.password = userDto.password
+
+        var updateUserInfo = user.email.let { repo.findByEmail(it) }
+        assertThat(updateUserInfo?.mobileNumber).isEqualTo(userDto.mobileNumber)
+        assertThat(updateUserInfo?.password).isEqualTo(userDto.password)
 
     }
 
     @Test
+    @DisplayName("delete user 정보 검증")
     fun deleteUserInfo() {
         val user =  User(
                 name = "서인1",

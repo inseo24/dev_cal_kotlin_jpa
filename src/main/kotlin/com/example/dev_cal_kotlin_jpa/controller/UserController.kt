@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+// 기존 프로젝트에는 cru + login 까지 있고 d는 없음
+// login 을 일단 제외하고 테스트 코드 작성 연습을 위해 일단 기본 crud 로 만들어 봄
 @RestController
 @RequestMapping("/user")
 class UserController(
