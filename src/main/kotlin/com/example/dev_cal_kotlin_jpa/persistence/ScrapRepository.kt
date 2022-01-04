@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository
 interface ScrapRepository : JpaRepository<Scrap, Long>{
 
     @Modifying
-    @Query(value = "INSERT INTO scrap(event_id, user_id, created_time) VALUES(:eventId, :userId, now())", nativeQuery = true)
-    fun scrap(@Param("eventId") eventId: String, @Param("userId") userId: String)
+    @Query(value = "INSERT INTO scrap(event_id, email, created_time) VALUES(:eventId, :email, now())", nativeQuery = true)
+    fun scrap(@Param("eventId") eventId: Long, @Param("email") email: String)
 
     @Modifying
-    @Query(value = "DELETE FROM scrap WHERE event_id = :eventId AND user_id = :userId", nativeQuery = true)
-    fun unscrap(@Param("eventId") eventId: String, @Param("userId") userId: String)
+    @Query(value = "DELETE FROM scrap WHERE event_id = :eventId AND email = :email", nativeQuery = true)
+    fun unscrap(@Param("eventId") eventId: Long, @Param("email") email: String)
 
-    @Query(value = "SELECT * FROM scrap WHERE user_id = :userId", nativeQuery = true)
-    fun retrieveScrap(@Param("userId") userId: String): MutableList<Scrap>
+    @Query(value = "SELECT * FROM scrap WHERE user_id = :email", nativeQuery = true)
+    fun userScraps(@Param("email") email: String): MutableList<Scrap>
 }

@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service
 import java.lang.Exception
 import javax.transaction.Transactional
 
+// 고민 : findOne 이랑 겹치는 코드가 많음 - update, delete 모두 먼저 email validation 하고 넘어감
 @Service
 class UserService(
         val repo: UserRepository,
         val modelMapper: ModelMapper
 ) {
-    // 고민 : findOne이랑 겹치는 코드가 많음 ^ㅠ^
     fun create(userDto: UserDto): ResponseEntity<Any> {
         return try {
             val result = repo.save(modelMapper.map(userDto, User::class.java))

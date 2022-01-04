@@ -19,4 +19,5 @@ data class Comment (
         @JsonIgnore
         val board: Board
 
-        ) : BaseEntity()
+        ) : BaseEntity() {
+}

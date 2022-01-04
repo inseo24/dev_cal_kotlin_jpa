@@ -42,7 +42,8 @@ internal class UserServiceTest {
     @InjectMocks
     lateinit var userService: UserService
 
-    @Mock
+    // @Mock
+    @Spy
     lateinit var modelMapper: ModelMapper
 
     @Mock
@@ -79,6 +80,8 @@ internal class UserServiceTest {
         // 이거 any(UserDto::class.java) 이렇게 해도 되던데? 굳이 안써도 되나?
         // 다른 것도 그런거 같던데
         lenient().`when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
+        val dtoToUser = modelMapper.map(userDto, User::class.java)
+        assertThat(dtoToUser).isEqualTo(user)
     }
 
 
@@ -105,6 +108,14 @@ internal class UserServiceTest {
 
         val response = userService.create(userDto)
         assertThat(response.statusCode).isEqualTo(HttpStatus.BAD_REQUEST)
+
+        // 추가
+        var entity = modelMapper.map(userDto, User::class.java)
+        `when`(repo.save(entity)).thenReturn(entity)
+        val result2 = repo.save(entity)
+        assertThat(result2.name).isEqualTo(userDto.name)
+        assertThat(result2.email).isEqualTo(userDto.email)
+        assertThat(result2.id).isNotNull
     }
 
 

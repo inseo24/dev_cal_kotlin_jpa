@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
@@ -22,27 +23,20 @@ class UserRepositoryTest {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    @BeforeEach
-    private fun cleanUp() {
-        userRepository.deleteAll()
-    }
-
     @Test
     @DisplayName("user data 1개를 저장한다")
     fun saveUserTest() {
         val user = User(
                 "seoin",
-                "jnh@naver.com",
+                "jnh123@naver.com",
                 "1234@tjdls",
                 "010-1234-1231"
         )
 
         var result = userRepository.save(user)
 
-        assertThat(result.createdTime).isNotNull
-        assertThat(result.updatedTime).isNotNull
         assertThat(result.name).isEqualTo("seoin")
-        assertThat(result.email).isEqualTo("jnh@naver.com")
+        assertThat(result.email).isEqualTo("jnh123@naver.com")
         assertThat(result.mobileNumber).isEqualTo("010-1234-1231")
         assertThat(result.password).isEqualTo("1234@tjdls")
     }
