@@ -40,14 +40,14 @@ class UserDtoTest {
             println(it.message)
             println(it.invalidValue)
         }
-        println("===============")
+        println("==============================")
         val errorResult = validator.validate(userErrorDto)
         errorResult.forEach{
             print(it.propertyPath.last().name + " : ")
             println(it.message)
             println(it.invalidValue)
         }
-        println("===============")
+        println("==============================")
 
         val nullResult = validator.validate(userNullErrorDto)
         nullResult.forEach{
@@ -55,7 +55,7 @@ class UserDtoTest {
             println(it.message)
             println(it.invalidValue)
         }
-        println("===============")
+        println("==============================")
 
         assertThat(result.isEmpty()).isEqualTo(true)
         assertThat(errorResult.isEmpty()).isEqualTo(false)

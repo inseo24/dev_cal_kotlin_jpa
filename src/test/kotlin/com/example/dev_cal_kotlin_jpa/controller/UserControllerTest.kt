@@ -23,9 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.*
 
 
-// JPA meta model error 발생
-// JpaAuditingConfig 파일 생성해서 @EnableJpaAuditing 을 거기로 옮김(원래 ~~Application.java 위에 붙였었음)
-// @EntityListeners 는 BaseEntity 에 있음(변경 사항 없음)
+// JPA meta model error
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(UserController::class)
 @ActiveProfiles("test")
@@ -42,7 +40,6 @@ internal class UserControllerTest {
     @Test
     @DisplayName("user 계정 생성")
     fun create() {
-
         val request = UserDto(
                 "인서",
                 "jnh100@naver.com",

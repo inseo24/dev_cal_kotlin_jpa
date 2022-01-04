@@ -60,7 +60,7 @@ internal class UserServiceTest {
 
     // unnecessary stubbings detected
     // 불필요한 스터빙을 하지 말라 -> 실제 코드에서 안 쓰이는 코드라서 이런 메시지가 나오는 건가?
-    // lenient()를 사용하면 에러 안 뜨는데 (제약을 좀 허술하게 해서 -> lenient 뜻 자체가 허술한, 느슨한, 관대한)
+    // lenient()를 사용하면 에러 안 뜨는데 (제약을 좀 허술하게 하는듯 -> lenient 뜻 자체가 허술한, 느슨한, 관대한)
     @Test
     @DisplayName("modelmapper 로직을 검증")
     fun dtoToEntity() {
