@@ -2,7 +2,6 @@ package com.example.dev_cal_kotlin_jpa.handler
 
 import com.example.dev_cal_kotlin_jpa.responseDto.Error
 import com.example.dev_cal_kotlin_jpa.responseDto.ErrorResponse
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody
 import java.time.LocalDateTime
 import java.util.NoSuchElementException
 import javax.servlet.http.HttpServletRequest
-import javax.validation.ConstraintViolationException
 
 @ControllerAdvice
 class ControllerAdvice {

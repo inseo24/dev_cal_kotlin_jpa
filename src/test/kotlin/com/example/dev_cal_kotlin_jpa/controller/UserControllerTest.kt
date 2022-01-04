@@ -1,21 +1,12 @@
 package com.example.dev_cal_kotlin_jpa.controller
 
-import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
-import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
-import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.*
-import org.mockito.Spy
-import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean

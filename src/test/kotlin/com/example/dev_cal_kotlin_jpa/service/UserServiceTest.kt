@@ -3,16 +3,10 @@ package com.example.dev_cal_kotlin_jpa.service
 import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
-import net.bytebuddy.matcher.ElementMatchers.any
-import org.aspectj.lang.annotation.Before
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.BeforeEach
 import org.modelmapper.ModelMapper
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
-import javax.validation.Validation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -20,11 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.*
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import javax.lang.model.element.Element
 import javax.transaction.Transactional
 
 // when(<MockClass>.method).thenReturn(<Return::class>)

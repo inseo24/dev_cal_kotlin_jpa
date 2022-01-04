@@ -2,7 +2,6 @@ package com.example.dev_cal_kotlin_jpa.controller
 
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid

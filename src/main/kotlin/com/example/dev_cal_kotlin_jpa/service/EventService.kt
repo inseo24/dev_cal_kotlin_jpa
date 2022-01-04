@@ -4,12 +4,9 @@ import com.example.dev_cal_kotlin_jpa.domain.Event
 import com.example.dev_cal_kotlin_jpa.dto.EventDto
 import com.example.dev_cal_kotlin_jpa.persistence.EventRepository
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
 import org.modelmapper.ModelMapper
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @Service
 class EventService(

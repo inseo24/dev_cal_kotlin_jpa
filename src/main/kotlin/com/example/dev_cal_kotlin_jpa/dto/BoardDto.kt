@@ -27,9 +27,6 @@ data class BoardDto (
 
         }
 
-        fun remove(){
-                user = null
-        }
 }
 
 

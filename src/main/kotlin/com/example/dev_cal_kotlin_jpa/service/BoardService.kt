@@ -2,10 +2,8 @@ package com.example.dev_cal_kotlin_jpa.service
 
 import com.example.dev_cal_kotlin_jpa.domain.Board
 import com.example.dev_cal_kotlin_jpa.dto.BoardDto
-import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.BoardRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
-import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
