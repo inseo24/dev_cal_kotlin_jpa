@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Board (
 
 
-        @ManyToOne(cascade = [CascadeType.ALL])
+        @ManyToOne
         @JoinColumn(name = "user")
         var user : User,
 

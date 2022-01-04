@@ -27,9 +27,9 @@ class BoardController (
                 return service.findOne(id.toLong())
         }
 
-        @DeleteMapping(path=["/{boardId}"])
-        fun delete(@PathVariable boardId: Long): ResponseEntity<Any> {
-                return service.delete(boardId)
+        @DeleteMapping(path=["/{id}"])
+        fun delete(@PathVariable id: String): ResponseEntity<Any> {
+                return service.delete(id.toLong())
         }
 
 

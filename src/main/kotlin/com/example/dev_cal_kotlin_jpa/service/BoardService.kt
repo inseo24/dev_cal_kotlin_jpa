@@ -41,15 +41,10 @@ class BoardService(
                 return modelMapper.map(entity, BoardDto::class.java)
         }
 
-        fun delete(boardId: Long) : ResponseEntity<Any> {
-                return try {
-                        repo.deleteById(boardId)
-                        ResponseEntity(Any(), HttpStatus.OK)
-
-                } catch (e : Exception){
-                        ResponseEntity(Any(), HttpStatus.BAD_REQUEST)
-
-                }
+        fun delete(id: Long) : ResponseEntity<Any> {
+                val entity = repo.findById(id).orElseThrow()
+                repo.delete(entity)
+                return ResponseEntity(Any(), HttpStatus.OK)
         }
 
 }
