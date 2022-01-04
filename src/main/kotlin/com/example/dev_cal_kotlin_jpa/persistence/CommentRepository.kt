@@ -14,7 +14,7 @@ import javax.validation.constraints.Email
 @Repository
 interface CommentRepository : JpaRepository<Comment, Long>{
 
-    @Query(value = "SELECT * FROM comment WHERE board_id = :boardId", nativeQuery = true)
+    @Query(value = "SELECT * FROM comment WHERE board = :boardId", nativeQuery = true)
     fun findCommentsListByBoardId(@Param("boardId") boardId: Long ) : MutableList<Comment>
 
  //    @Modifying

@@ -1,23 +1,27 @@
 package com.example.dev_cal_kotlin_jpa.dto
 
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
 
 data class CommentDto (
 
-        var id : Long,
+        var id : Long?=null,
 
         @field:NotBlank
-        var user : UserDto,
+        var user : UserDto?=null,
 
         @field:NotBlank
-        var comment : String="",
+        var comment : String=""
 
-        @field:NotBlank
-        var content : String="",
+){
 
-)
+        init{
+                user = UserDto().apply {
+                        name = "$name"
+                        email = "$email"
+                }
+
+        }
+}
+
 
 

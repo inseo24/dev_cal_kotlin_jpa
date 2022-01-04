@@ -12,6 +12,7 @@ data class Comment (
 
         @ManyToOne
         @JoinColumn(name = "user")
+        @JsonIgnore
         val user: User,
 
         @JoinColumn(name = "board")

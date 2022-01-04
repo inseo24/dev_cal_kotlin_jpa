@@ -40,12 +40,18 @@ class CommentService(
                 }
         }
 
+
+        // 로직 변경 필요할 듯 ->
         @Transactional
         fun update(commentDto: CommentDto, email: String, id : Long): MutableList<CommentDto> {
                 val user = userRepository.findByEmail(email)
                 user?.let {
                         var original = repo.findById(id).orElseThrow()
-                        original.comment = commentDto.comment
+                        if (original.user == user){
+                                original.comment = commentDto.comment
+                        } else {
+                                throw RuntimeException("wrong user")
+                        }
                 }
                 return findAll()
         }
