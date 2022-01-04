@@ -9,9 +9,24 @@ import javax.validation.constraints.Size
 // scrap id 를 넣어줄 필요가 있을까?
 data class ScrapDto (
 
-        var eventDto: EventDto,
-        var userDto: UserDto
+        var event: EventDto?=null,
+        var user: UserDto?=null
 
-)
+){
+        init{
+                user = UserDto().apply {
+                        name = "$name"
+                        email = "$email"
+                }
+                event = EventDto().apply {
+                        title = "$title"
+                        cost = "$cost"
+
+                }
+
+        }
+}
+
+
 
 
