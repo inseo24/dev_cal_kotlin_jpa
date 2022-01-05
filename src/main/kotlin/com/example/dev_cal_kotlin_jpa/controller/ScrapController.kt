@@ -19,12 +19,17 @@ class ScrapController (
 
         @DeleteMapping(path = ["/{email}/{eventId}"])
         fun unscrap(@PathVariable email : String, @PathVariable eventId : Long) : ResponseEntity<Any> {
-                return service.unscrap(email, eventId)
+                return service.deleteScrap(email, eventId)
         }
 
         @GetMapping
         fun findAll() : MutableList<ScrapDto> {
                 return service.findAll()
+        }
+
+        @GetMapping(path = ["/{email}"])
+        fun findUserScraps(@PathVariable email: String) :ResponseEntity<Any>{
+                return service.findUsersScrap(email)
         }
 
 }
