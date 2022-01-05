@@ -7,18 +7,18 @@ import javax.persistence.*
 @Table(name = "comment")
 class Comment(
 
-        @Column(length = 100, nullable = false)
-        var comment: String,
+    @Column(length = 100, nullable = false)
+    var comment: String,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "user")
-        @JsonIgnore
-        val user: User,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    @JsonIgnore
+    val user: User,
 
-        @JoinColumn(name = "board")
-        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
-        @JsonIgnore
-        val board: Board,
+    @JoinColumn(name = "board")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @JsonIgnore
+    val board: Board,
 
-        ) : BaseEntity() {
+    ) : BaseEntity() {
 }

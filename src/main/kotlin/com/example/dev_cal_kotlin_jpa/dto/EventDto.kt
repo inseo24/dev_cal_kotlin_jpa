@@ -8,20 +8,20 @@ import javax.validation.constraints.Size
 
 data class EventDto(
 
-        val id: Long? = null,
+    val id: Long? = null,
 
-        @field:NotBlank
-        val title: String = "",
+    @field:NotBlank
+    val title: String = "",
 
-        val startDate: LocalDateTime? = null,
-        val endDate: LocalDateTime? = null,
+    val startDate: LocalDateTime? = null,
+    val endDate: LocalDateTime? = null,
 
-        val host: String = "",
-        val timeRequired: String = "",
-        val cost: String = "",
-        val limitPersonnel: String = "",
-        val relatedLink: String = "",
+    val host: String = "",
+    val timeRequired: String = "",
+    val cost: String = "",
+    val limitPersonnel: String = "",
+    val relatedLink: String = "",
 
-        )
+    )
 
 

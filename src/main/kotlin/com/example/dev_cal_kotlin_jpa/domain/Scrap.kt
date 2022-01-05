@@ -7,13 +7,13 @@ import javax.persistence.*
 @Table(name = "scrap")
 class Scrap(
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "events")
-        @JsonIgnore
-        var event: Event,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "events")
+    @JsonIgnore
+    var event: Event,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "user")
-        val user: User,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    val user: User,
 
-        ) : BaseEntity()
+    ) : BaseEntity()
