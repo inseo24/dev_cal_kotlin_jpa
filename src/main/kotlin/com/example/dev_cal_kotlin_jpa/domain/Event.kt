@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "event")
-data class Event(
+class Event(
 
         var title: String,
 

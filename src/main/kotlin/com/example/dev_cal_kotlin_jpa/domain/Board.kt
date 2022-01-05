@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "board")
-data class Board(
+class Board(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")

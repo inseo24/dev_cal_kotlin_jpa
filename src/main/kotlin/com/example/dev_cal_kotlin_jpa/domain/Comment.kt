@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "comment")
-data class Comment(
+class Comment(
 
         @Column(length = 100, nullable = false)
         var comment: String,

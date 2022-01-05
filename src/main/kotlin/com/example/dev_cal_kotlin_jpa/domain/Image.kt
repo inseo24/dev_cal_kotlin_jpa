@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "image")
-data class Image(
+class Image(
         var name: String,
         var type: String,
 
