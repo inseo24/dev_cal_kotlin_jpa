@@ -18,18 +18,21 @@ import javax.servlet.http.HttpServletRequest
 class ControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun methodArgumentNotValidException(e: MethodArgumentNotValidException, request: HttpServletRequest) : ResponseEntity<ErrorResponse> {
+    fun methodArgumentNotValidException(
+        e: MethodArgumentNotValidException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
 
         val errors = mutableListOf<Error>()
 
         e.bindingResult.allErrors.forEach { errorObject ->
-             val error = Error().apply {
-                 this.field = (errorObject as FieldError).field
-                 this.message = errorObject.defaultMessage
-                 this.value = errorObject.rejectedValue
-             }.apply {
-                 errors.add(this)
-             }
+            val error = Error().apply {
+                this.field = (errorObject as FieldError).field
+                this.message = errorObject.defaultMessage
+                this.value = errorObject.rejectedValue
+            }.apply {
+                errors.add(this)
+            }
         }
 
         val errorResponse = ErrorResponse().apply {
@@ -47,13 +50,13 @@ class ControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException::class)
-    fun handleHttpMediaTypeNotAcceptableException() : ResponseEntity<Any> {
+    fun handleHttpMediaTypeNotAcceptableException(): ResponseEntity<Any> {
         return ResponseEntity.ok().build()
     }
 
     @ResponseBody
     @ExceptionHandler(NoSuchElementException::class)
-    fun noSuchElementException() : ResponseEntity<Any> {
+    fun noSuchElementException(): ResponseEntity<Any> {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }
 }

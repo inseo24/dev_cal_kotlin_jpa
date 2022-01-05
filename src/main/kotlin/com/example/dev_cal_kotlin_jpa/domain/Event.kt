@@ -7,31 +7,31 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "event")
-data class Event (
+data class Event(
 
-        var title : String,
-
-        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-        var start : LocalDateTime,
+        var title: String,
 
         @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-        var end : LocalDateTime,
+        var start: LocalDateTime,
 
-        var host : String,
+        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+        var end: LocalDateTime,
+
+        var host: String,
 
         @JsonProperty("time_required")
-        var timeRequired : String,
+        var timeRequired: String,
 
-        var cost : String,
+        var cost: String,
 
         @JsonProperty("limit_personnel")
-        var limitPersonnel : String,
+        var limitPersonnel: String,
 
         @JsonProperty("related_link")
-        var relatedLink : String,
+        var relatedLink: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
-        var user: User
+        var user: User,
 
         ) : BaseEntity()

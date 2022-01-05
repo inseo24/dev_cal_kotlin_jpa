@@ -25,10 +25,10 @@ class UserRepositoryTest {
     @DisplayName("user data 1개를 저장한다")
     fun saveUserTest() {
         val user = User(
-                "seoin",
-                "jnh123@naver.com",
-                "1234@tjdls",
-                "010-1234-1231"
+            "seoin",
+            "jnh123@naver.com",
+            "1234@tjdls",
+            "010-1234-1231"
         )
 
         var result = userRepository.save(user)
@@ -43,24 +43,24 @@ class UserRepositoryTest {
     @DisplayName("user data를 여러 개 저장한다.")
     fun saveAllUsersTest() {
         val userList = mutableListOf(
-                User(
-                        "서인",
-                        "jnh1@naver.com",
-                        "1234@tjdls",
-                        "010-1234-1281"
-                ),
-                User(
-                        "서인",
-                        "jnh2@naver.com",
-                        "1234@tjdls",
-                        "010-1234-1281"
-                ),
-                User(
-                        "서인",
-                        "jnh3@naver.com",
-                        "1234@tjdls",
-                        "010-1234-1281"
-                )
+            User(
+                "서인",
+                "jnh1@naver.com",
+                "1234@tjdls",
+                "010-1234-1281"
+            ),
+            User(
+                "서인",
+                "jnh2@naver.com",
+                "1234@tjdls",
+                "010-1234-1281"
+            ),
+            User(
+                "서인",
+                "jnh3@naver.com",
+                "1234@tjdls",
+                "010-1234-1281"
+            )
 
         )
 
@@ -74,10 +74,10 @@ class UserRepositoryTest {
     @DisplayName("email을 이용해 User 정보를 찾는다.")
     fun findByEmail() {
         val user = User(
-                "seoin",
-                "jnh@naver.com",
-                "1234@tjdls",
-                "010-1234-1231"
+            "seoin",
+            "jnh@naver.com",
+            "1234@tjdls",
+            "010-1234-1231"
         )
         userRepository.save(user)
 

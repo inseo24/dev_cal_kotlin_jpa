@@ -5,7 +5,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "scrap")
-data class Scrap (
+data class Scrap(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "events")
@@ -14,6 +14,6 @@ data class Scrap (
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
-        val user: User
+        val user: User,
 
         ) : BaseEntity()

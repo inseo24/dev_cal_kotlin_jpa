@@ -11,38 +11,38 @@ import org.springframework.stereotype.Service
 
 @Service
 class BoardService(
-        val userRepository: UserRepository,
-        val repo: BoardRepository,
-        val modelMapper: ModelMapper
+    val userRepository: UserRepository,
+    val repo: BoardRepository,
+    val modelMapper: ModelMapper,
 ) {
-        fun create(boardDto: BoardDto, email: String): ResponseEntity<Any> {
-                val user = userRepository.findByEmail(email)
+    fun create(boardDto: BoardDto, email: String): ResponseEntity<Any> {
+        val user = userRepository.findByEmail(email)
 
-                return user?.let {
-                        val entity = modelMapper.map(boardDto, Board::class.java)
-                        entity.user = user
-                        repo.save(entity)
-                        ResponseEntity.ok().build()
-                }?:ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        return user?.let {
+            val entity = modelMapper.map(boardDto, Board::class.java)
+            entity.user = user
+            repo.save(entity)
+            ResponseEntity.ok().build()
+        } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
-        }
+    }
 
-        fun findAll() : MutableList<BoardDto> {
-                return repo.findAll()
-                        .map {
-                                modelMapper.map(it, BoardDto::class.java)
-                        }.toMutableList()
-        }
+    fun findAll(): MutableList<BoardDto> {
+        return repo.findAll()
+            .map {
+                modelMapper.map(it, BoardDto::class.java)
+            }.toMutableList()
+    }
 
-        fun findOne(id : Long) : BoardDto {
-                val entity = repo.findById(id).orElseThrow()
-                return modelMapper.map(entity, BoardDto::class.java)
-        }
+    fun findOne(id: Long): BoardDto {
+        val entity = repo.findById(id).orElseThrow()
+        return modelMapper.map(entity, BoardDto::class.java)
+    }
 
-        fun delete(id: Long) : ResponseEntity<Any> {
-                val entity = repo.findById(id).orElseThrow()
-                repo.delete(entity)
-                return ResponseEntity(Any(), HttpStatus.OK)
-        }
+    fun delete(id: Long): ResponseEntity<Any> {
+        val entity = repo.findById(id).orElseThrow()
+        repo.delete(entity)
+        return ResponseEntity(Any(), HttpStatus.OK)
+    }
 
 }

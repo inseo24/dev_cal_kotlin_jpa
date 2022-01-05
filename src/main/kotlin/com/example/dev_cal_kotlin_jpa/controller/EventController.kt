@@ -8,24 +8,24 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/event")
-class EventController (
-        val service: EventService
-){
+class EventController(
+        val service: EventService,
+) {
 
-        @GetMapping
-        fun findAll() : MutableList<EventDto> {
-                return service.findAll()
-        }
+    @GetMapping
+    fun findAll(): MutableList<EventDto> {
+        return service.findAll()
+    }
 
-        @PostMapping
-        fun create(@Valid @RequestBody eventDto: EventDto):ResponseEntity<Any> {
-                return service.create(eventDto)
-        }
+    @PostMapping
+    fun create(@Valid @RequestBody eventDto: EventDto): ResponseEntity<Any> {
+        return service.create(eventDto)
+    }
 
-        @GetMapping(path = ["/{title}"])
-        fun findEventListContainsTitle(@PathVariable title : String): MutableList<EventDto> {
-                return service.findListContainsTitle(title)
-        }
+    @GetMapping(path = ["/{title}"])
+    fun findEventListContainsTitle(@PathVariable title: String): MutableList<EventDto> {
+        return service.findListContainsTitle(title)
+    }
 
 
 }

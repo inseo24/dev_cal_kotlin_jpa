@@ -7,29 +7,29 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/scrap")
-class ScrapController (
-        val service: ScrapService
-){
+class ScrapController(
+        val service: ScrapService,
+) {
 
 
-        @PostMapping(path = ["/{email}/{eventId}"])
-        fun scrap( @PathVariable email : String, @PathVariable eventId : Long) :ResponseEntity<Any> {
-                return service.scrap(email, eventId)
-        }
+    @PostMapping(path = ["/{email}/{eventId}"])
+    fun scrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<Any> {
+        return service.scrap(email, eventId)
+    }
 
-        @DeleteMapping(path = ["/{email}/{eventId}"])
-        fun unscrap(@PathVariable email : String, @PathVariable eventId : Long) : ResponseEntity<Any> {
-                return service.deleteScrap(email, eventId)
-        }
+    @DeleteMapping(path = ["/{email}/{eventId}"])
+    fun unscrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<Any> {
+        return service.deleteScrap(email, eventId)
+    }
 
-        @GetMapping
-        fun findAll() : MutableList<ScrapDto> {
-                return service.findAll()
-        }
+    @GetMapping
+    fun findAll(): MutableList<ScrapDto> {
+        return service.findAll()
+    }
 
-        @GetMapping(path = ["/{email}"])
-        fun findUserScraps(@PathVariable email: String) :ResponseEntity<Any>{
-                return service.findUsersScrap(email)
-        }
+    @GetMapping(path = ["/{email}"])
+    fun findUserScraps(@PathVariable email: String): ResponseEntity<Any> {
+        return service.findUsersScrap(email)
+    }
 
 }

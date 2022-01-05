@@ -14,51 +14,50 @@ class CommentService(
         val boardRepository: BoardRepository,
         val userRepository: UserRepository,
         val repo: CommentRepository,
-        val modelMapper: ModelMapper
+        val modelMapper: ModelMapper,
 ) {
 
-        fun findAll() : MutableList<CommentDto> {
-               return repo.findAll()
-                       .map {
-                               modelMapper.map(it, CommentDto::class.java)
-                       }.toMutableList()
+    fun findAll(): MutableList<CommentDto> {
+        return repo.findAll()
+            .map {
+                modelMapper.map(it, CommentDto::class.java)
+            }.toMutableList()
+    }
+
+    fun findCommentsByBoardId(boardId: Long): MutableList<CommentDto> {
+        return repo.findCommentsByBoardId(boardId)
+            .map {
+                modelMapper.map(it, CommentDto::class.java)
+            }.toMutableList()
+    }
+
+    fun create(commentDto: CommentDto, boardId: Long, email: String): Comment? {
+        val boardEntity = boardRepository.findById(boardId).orElseThrow()
+        val user = userRepository.findByEmail(email)
+        val entity = user?.let { Comment(commentDto.comment, it, boardEntity) }
+        return entity?.let {
+            repo.save(entity)
         }
+    }
 
-        fun findCommentsByBoardId(boardId : Long) : MutableList<CommentDto> {
-                return repo.findCommentsByBoardId(boardId)
-                        .map {
-                                modelMapper.map(it, CommentDto::class.java)
-                        }.toMutableList()
+
+    @Transactional
+    fun update(commentDto: CommentDto, email: String, id: Long): MutableList<CommentDto> {
+        val user = userRepository.findByEmail(email)
+        user?.let {
+            var original = repo.findById(id).orElseThrow()
+            if (original.user == user) {
+                original.comment = commentDto.comment
+            } else {
+                throw RuntimeException("wrong user")
+            }
         }
+        return findAll()
+    }
 
-        fun create(commentDto: CommentDto, boardId: Long, email: String): Comment? {
-                val boardEntity = boardRepository.findById(boardId).orElseThrow()
-                val user = userRepository.findByEmail(email)
-                val entity = user?.let { Comment(commentDto.comment, it, boardEntity) }
-                return entity?.let {
-                        repo.save(entity)
-                }
-        }
-
-
-        // 로직 변경 필요할 듯 ->
-        @Transactional
-        fun update(commentDto: CommentDto, email: String, id : Long): MutableList<CommentDto> {
-                val user = userRepository.findByEmail(email)
-                user?.let {
-                        var original = repo.findById(id).orElseThrow()
-                        if (original.user == user){
-                                original.comment = commentDto.comment
-                        } else {
-                                throw RuntimeException("wrong user")
-                        }
-                }
-                return findAll()
-        }
-
-        // 수정 필요
-       // fun delete(id : Long, email: String) {
-       //         repo.deleteByCommentIdAndUserId(id, email)
-       // }
+    // 수정 필요
+    // fun delete(id : Long, email: String) {
+    //         repo.deleteByCommentIdAndUserId(id, email)
+    // }
 
 }

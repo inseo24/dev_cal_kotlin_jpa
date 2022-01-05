@@ -11,7 +11,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/user")
 class UserController(
-        val service: UserService
+    val service: UserService,
 ) {
 
     @PostMapping(path = [""])
@@ -20,22 +20,22 @@ class UserController(
     }
 
     @GetMapping(path = ["/email/{email}"])
-    fun findOne(@PathVariable email: String) : ResponseEntity<Any> {
+    fun findOne(@PathVariable email: String): ResponseEntity<Any> {
         return service.findOne(email)
     }
 
     @GetMapping
-    fun findAll() : MutableList<UserDto> {
+    fun findAll(): MutableList<UserDto> {
         return service.findAll()
     }
 
     @PutMapping(path = ["/update"])
-    fun update(@Valid @RequestBody userDto: UserDto) : ResponseEntity<Any> {
+    fun update(@Valid @RequestBody userDto: UserDto): ResponseEntity<Any> {
         return service.update(userDto)
     }
 
     @DeleteMapping(path = ["/delete/{email}"])
-    fun delete(@Valid @PathVariable email: String) : ResponseEntity<Any> {
+    fun delete(@Valid @PathVariable email: String): ResponseEntity<Any> {
         return service.delete(email)
     }
 

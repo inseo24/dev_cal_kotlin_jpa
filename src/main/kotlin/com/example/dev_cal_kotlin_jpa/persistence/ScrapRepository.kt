@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ScrapRepository : JpaRepository<Scrap, Long>{
+interface ScrapRepository : JpaRepository<Scrap, Long> {
 
     @Modifying
     @Query(value = "INSERT INTO scrap(events, user, created_time) VALUES(:eventId, :userId, now())", nativeQuery = true)

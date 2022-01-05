@@ -2,18 +2,18 @@ package com.example.dev_cal_kotlin_jpa.dto
 
 import javax.validation.constraints.NotBlank
 
-data class BoardDto (
+data class BoardDto(
 
-        var id : Long?=null,
-
-        @field:NotBlank
-        var title : String ="",
+        var id: Long? = null,
 
         @field:NotBlank
-        var content : String="",
+        var title: String = "",
 
-        var user : UserDto?=null,
+        @field:NotBlank
+        var content: String = "",
+
+        var user: UserDto? = null,
         var comments: MutableList<CommentDto> = mutableListOf(),
-        var images: MutableList<ImageDto> = mutableListOf()
+        var images: MutableList<ImageDto> = mutableListOf(),
 
-)
+        )

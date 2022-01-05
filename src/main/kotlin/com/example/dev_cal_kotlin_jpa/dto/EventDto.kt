@@ -6,22 +6,22 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
-data class EventDto (
+data class EventDto(
 
-        var id : Long?=null,
+        var id: Long? = null,
 
         @field:NotBlank
-        var title : String="",
+        var title: String = "",
 
-        var start : LocalDateTime?=null,
-        var end : LocalDateTime?=null,
+        var start: LocalDateTime? = null,
+        var end: LocalDateTime? = null,
 
-        var host : String="",
-        var timeRequired : String="",
-        var cost : String="",
-        var limitPersonnel : String="",
-        var relatedLink : String=""
+        var host: String = "",
+        var timeRequired: String = "",
+        var cost: String = "",
+        var limitPersonnel: String = "",
+        var relatedLink: String = "",
 
-)
+        )
 
 

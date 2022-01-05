@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import javax.persistence.Id
 
 @Repository
-interface ImageRepository : JpaRepository<Image, Long>{
+interface ImageRepository : JpaRepository<Image, Long> {
 
     fun findByBoardId(boardId: Id)
 

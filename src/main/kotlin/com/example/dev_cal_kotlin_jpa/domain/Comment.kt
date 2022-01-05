@@ -5,10 +5,10 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "comment")
-data class Comment (
+data class Comment(
 
         @Column(length = 100, nullable = false)
-        var comment : String,
+        var comment: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
@@ -18,7 +18,7 @@ data class Comment (
         @JoinColumn(name = "board")
         @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
         @JsonIgnore
-        val board: Board
+        val board: Board,
 
         ) : BaseEntity() {
 }

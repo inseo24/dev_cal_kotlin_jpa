@@ -14,24 +14,24 @@ class UserDtoTest {
     @DisplayName("user Dto 검증 테스트")
     fun userDtoTest() {
         val userDto = UserDto(
-                name = "서인",
-                email = "jnh@naver.com",
-                password = "1234@tjdls",
-                mobileNumber = "010-1234-1281"
+            name = "서인",
+            email = "jnh@naver.com",
+            password = "1234@tjdls",
+            mobileNumber = "010-1234-1281"
         )
 
         val userErrorDto = UserDto(
-                name = "서인adfasdfsda",
-                email = "jn=er.com",
-                password = "12123jdls",
-                mobileNumber = "031234-1281"
+            name = "서인adfasdfsda",
+            email = "jn=er.com",
+            password = "12123jdls",
+            mobileNumber = "031234-1281"
         )
 
         val userNullErrorDto = UserDto(
-                name = "",
-                email = "",
-                password = "",
-                mobileNumber = ""
+            name = "",
+            email = "",
+            password = "",
+            mobileNumber = ""
         )
 
         val result = validator.validate(userDto)
@@ -42,7 +42,7 @@ class UserDtoTest {
         }
         println("==============================")
         val errorResult = validator.validate(userErrorDto)
-        errorResult.forEach{
+        errorResult.forEach {
             print(it.propertyPath.last().name + " : ")
             println(it.message)
             println(it.invalidValue)
@@ -50,7 +50,7 @@ class UserDtoTest {
         println("==============================")
 
         val nullResult = validator.validate(userNullErrorDto)
-        nullResult.forEach{
+        nullResult.forEach {
             print(it.propertyPath.last().name + " : ")
             println(it.message)
             println(it.invalidValue)

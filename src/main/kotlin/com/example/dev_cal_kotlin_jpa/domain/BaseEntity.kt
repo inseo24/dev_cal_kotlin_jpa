@@ -10,16 +10,16 @@ import javax.persistence.*
 @EntityListeners(AuditingEntityListener::class)
 class BaseEntity {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = 0
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0
 
-        @CreatedDate
-        @Column(name = "created_time", updatable = false)
-        var createdTime: LocalDateTime? = null
+    @CreatedDate
+    @Column(name = "created_time", updatable = false)
+    var createdTime: LocalDateTime? = null
 
-        @LastModifiedDate
-        @Column(name = "updated_time")
-        var updatedTime: LocalDateTime? = null
+    @LastModifiedDate
+    @Column(name = "updated_time")
+    var updatedTime: LocalDateTime? = null
 
 }

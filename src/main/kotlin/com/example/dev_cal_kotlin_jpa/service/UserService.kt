@@ -14,8 +14,8 @@ import javax.transaction.Transactional
 // 고민 : findOne 이랑 겹치는 코드가 많음 - update, delete 모두 먼저 email validation 하고 넘어감
 @Service
 class UserService(
-        val repo: UserRepository,
-        val modelMapper: ModelMapper
+    val repo: UserRepository,
+    val modelMapper: ModelMapper,
 ) {
 
 
@@ -27,7 +27,7 @@ class UserService(
                 this.status = "200 OK"
             }
             ResponseEntity.ok().body(response)
-        } catch ( e : Exception ) {
+        } catch (e: Exception) {
             println(e)
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
         }
@@ -46,9 +46,9 @@ class UserService(
 
     fun findAll(): MutableList<UserDto> {
         return repo.findAll()
-                .map{
-                    modelMapper.map(it, UserDto::class.java)
-                }.toMutableList()
+            .map {
+                modelMapper.map(it, UserDto::class.java)
+            }.toMutableList()
     }
 
     @Transactional

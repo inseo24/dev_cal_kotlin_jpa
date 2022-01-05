@@ -15,33 +15,33 @@ import javax.transaction.Transactional
 
 @Service
 class ScrapService(
-        val userRepo: UserRepository,
-        val eventRepository: EventRepository,
-        val repo: ScrapRepository,
-        val modelMapper: ModelMapper
+    val userRepo: UserRepository,
+    val eventRepository: EventRepository,
+    val repo: ScrapRepository,
+    val modelMapper: ModelMapper,
 ) {
 
     @Transactional
-    fun deleteScrap(email : String , eventId : Long ): ResponseEntity<Any>{
+    fun deleteScrap(email: String, eventId: Long): ResponseEntity<Any> {
         val user = userRepo.findByEmail(email)
         val userId = user?.id
         userId?.let {
             eventRepository.findById(eventId).orElseThrow()
             repo.deleteScrapByEventIdAndUserId(eventId, userId)
             return ResponseEntity.ok().build()
-        }?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
     }
 
     @Transactional
-    fun scrap(email: String, eventId: Long): ResponseEntity<Any>{
+    fun scrap(email: String, eventId: Long): ResponseEntity<Any> {
         val user = userRepo.findByEmail(email)
         val userId = user?.id
         userId?.let {
             eventRepository.findById(eventId).orElseThrow()
             repo.scrap(eventId, userId)
             return ResponseEntity.ok().build()
-        }?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
     }
 
@@ -52,7 +52,7 @@ class ScrapService(
             }.toMutableList()
     }
 
-    fun findUsersScrap(email : String): ResponseEntity<Any> {
+    fun findUsersScrap(email: String): ResponseEntity<Any> {
         val user = userRepo.findByEmail(email)
         val userId = user?.id
         return userId?.let {
@@ -67,6 +67,6 @@ class ScrapService(
             }
             ResponseEntity.ok().body(response)
 
-        }?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+        } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }
 }

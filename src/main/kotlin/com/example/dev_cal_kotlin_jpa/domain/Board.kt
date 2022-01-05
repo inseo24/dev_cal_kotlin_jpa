@@ -6,21 +6,21 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "board")
-data class Board (
+data class Board(
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "user")
-        var user : User,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    var user: User,
 
-        @JsonIgnore
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
-        var images : MutableList<Image> = mutableListOf(),
+    @JsonIgnore
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
+    var images: MutableList<Image> = mutableListOf(),
 
-        @JsonIgnore
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
-        var comments : MutableList<Comment> = mutableListOf(),
+    @JsonIgnore
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
+    var comments: MutableList<Comment> = mutableListOf(),
 
-        var title : String,
-        var content : String,
+    var title: String,
+    var content: String,
 
-        ) : BaseEntity()
+    ) : BaseEntity()

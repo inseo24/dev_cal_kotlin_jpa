@@ -56,10 +56,10 @@ internal class UserServiceTest {
     @DisplayName("modelmapper 로직을 검증")
     fun dtoToEntity() {
         val userDto = UserDto(
-                "인서",
-                "jnh57@naver.com",
-                "123tjdls@",
-                "010-2124-1281"
+            "인서",
+            "jnh57@naver.com",
+            "123tjdls@",
+            "010-2124-1281"
         )
         var user = User(
             "인서",
@@ -79,17 +79,17 @@ internal class UserServiceTest {
     @DisplayName("createUser 서비스 로직을 검증한다.")
     fun createUser() {
         val user = User(
-                "인서",
-                "jnh57@naver.com",
-                "123tjdls@",
-                "010-2124-1281"
+            "인서",
+            "jnh57@naver.com",
+            "123tjdls@",
+            "010-2124-1281"
         )
 
         val userDto = UserDto(
-                "인서",
-                "jnh57@naver.com",
-                "123tjdls@",
-                "010-2124-1281"
+            "인서",
+            "jnh57@naver.com",
+            "123tjdls@",
+            "010-2124-1281"
         )
 
         `when`(repo.save(user)).thenReturn(user)
@@ -112,11 +112,11 @@ internal class UserServiceTest {
     @Test
     @DisplayName("find one user 로직 검증")
     fun findOneUser() {
-        val user1 =  User(
-                name = "서인1",
-                email = "jnh1@naver.com",
-                password = "1234@tjdls",
-                mobileNumber = "010-7685-1281"
+        val user1 = User(
+            name = "서인1",
+            email = "jnh1@naver.com",
+            password = "1234@tjdls",
+            mobileNumber = "010-7685-1281"
         )
         `when`(repo.findByEmail(user1.email)).thenReturn(user1)
         val savedUser = repo.findByEmail("jnh1@naver.com")
@@ -130,23 +130,23 @@ internal class UserServiceTest {
     @Test
     @DisplayName("find All users 로직 검증")
     fun findAllUsers() {
-        val user1 =  User(
-                name = "서인1",
-                email = "jnh1@naver.com",
-                password = "1234@tjdls",
-                mobileNumber = "010-7685-1281"
+        val user1 = User(
+            name = "서인1",
+            email = "jnh1@naver.com",
+            password = "1234@tjdls",
+            mobileNumber = "010-7685-1281"
         )
         val user2 = User(
-                name = "서인2",
-                email = "jnh2@naver.com",
-                password = "12124@tj3ls",
-                mobileNumber = "010-1234-1281"
+            name = "서인2",
+            email = "jnh2@naver.com",
+            password = "12124@tj3ls",
+            mobileNumber = "010-1234-1281"
         )
         val user3 = User(
-                name = "서인3",
-                email = "jnh3@naver.com",
-                password = "1234@tjdl23s",
-                mobileNumber = "010-2342-1281"
+            name = "서인3",
+            email = "jnh3@naver.com",
+            password = "1234@tjdl23s",
+            mobileNumber = "010-2342-1281"
         )
         val users = mutableListOf(user1, user2, user3)
 
@@ -161,17 +161,17 @@ internal class UserServiceTest {
     @Transactional
     @DisplayName("update user information 로직 검증")
     fun updateUserInfo() {
-        val user =  User(
-                name = "서인1",
-                email = "jnh1@naver.com",
-                password = "1234@tjdls",
-                mobileNumber = "010-7685-1281"
+        val user = User(
+            name = "서인1",
+            email = "jnh1@naver.com",
+            password = "1234@tjdls",
+            mobileNumber = "010-7685-1281"
         )
         val userDto = UserDto(
-                name = "서인1",
-                email = "jnh1@naver.com",
-                password = "tjdls@!1234",
-                mobileNumber = "010-5678-1234"
+            name = "서인1",
+            email = "jnh1@naver.com",
+            password = "tjdls@!1234",
+            mobileNumber = "010-5678-1234"
         )
 
         `when`(repo.findByEmail((userDto.email))).thenReturn(user)
@@ -188,11 +188,11 @@ internal class UserServiceTest {
     @Test
     @DisplayName("delete user 정보 검증")
     fun deleteUserInfo() {
-        val user =  User(
-                name = "서인1",
-                email = "jnh1@naver.com",
-                password = "1234@tjdls",
-                mobileNumber = "010-7685-1281"
+        val user = User(
+            name = "서인1",
+            email = "jnh1@naver.com",
+            password = "1234@tjdls",
+            mobileNumber = "010-7685-1281"
         )
         repo.save(user)
         val savedUser = repo.findByEmail(user.email)
