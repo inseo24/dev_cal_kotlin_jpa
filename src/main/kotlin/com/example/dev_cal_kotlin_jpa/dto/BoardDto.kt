@@ -17,16 +17,3 @@ data class BoardDto (
         var images: MutableList<ImageDto> = mutableListOf()
 
 )
-{
-
-        init{
-                user = UserDto().apply {
-                        name = "$name"
-                        email = "$email"
-                }
-
-        }
-
-}
-
-

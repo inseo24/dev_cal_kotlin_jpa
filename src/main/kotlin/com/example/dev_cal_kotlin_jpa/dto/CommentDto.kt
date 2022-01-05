@@ -12,16 +12,5 @@ data class CommentDto (
         @field:NotBlank
         var comment : String=""
 
-){
-
-        init{
-                user = UserDto().apply {
-                        name = "$name"
-                        email = "$email"
-                }
-
-        }
-}
-
-
+)
 

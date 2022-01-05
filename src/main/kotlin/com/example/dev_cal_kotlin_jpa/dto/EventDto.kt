@@ -22,12 +22,6 @@ data class EventDto (
         var limitPersonnel : String="",
         var relatedLink : String=""
 
-){
-        init{
-
-
-        }
-}
-
+)
 
 

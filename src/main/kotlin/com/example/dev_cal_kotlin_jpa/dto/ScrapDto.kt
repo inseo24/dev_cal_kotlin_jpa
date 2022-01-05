@@ -6,21 +6,7 @@ data class ScrapDto (
         var event: EventDto?=null,
         var user: UserDto?=null
 
-){
-        init{
-                user = UserDto().apply {
-                        name = "$name"
-                        email = "$email"
-                }
-                event = EventDto().apply {
-                        title = "$title"
-                        cost = "$cost"
-
-                }
-
-        }
-}
-
+)
 
 
 
