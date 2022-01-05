@@ -27,7 +27,7 @@ class ScrapController(
         return service.findAll()
     }
 
-    @GetMapping(path = ["/{email}"])
+    @GetMapping("/{email}")
     fun findUserScraps(@PathVariable email: String): ResponseEntity<Any> {
         return service.findUsersScrap(email)
     }

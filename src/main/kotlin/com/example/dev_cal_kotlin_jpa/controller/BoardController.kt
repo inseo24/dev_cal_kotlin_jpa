@@ -12,7 +12,7 @@ class BoardController(
         val service: BoardService,
 ) {
 
-    @PostMapping(path = ["/{email}"])
+    @PostMapping("/{email}")
     fun create(@Valid @RequestBody boardDto: BoardDto, @PathVariable email: String): ResponseEntity<Any> {
         return service.create(boardDto, email)
     }
@@ -22,12 +22,12 @@ class BoardController(
         return service.findAll()
     }
 
-    @GetMapping(path = ["/{id}"])
+    @GetMapping("/{id}")
     fun findOne(@PathVariable id: Long): BoardDto {
         return service.findOne(id)
     }
 
-    @DeleteMapping(path = ["/{id}"])
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Any> {
         return service.delete(id)
     }

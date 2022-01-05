@@ -14,7 +14,7 @@ class UserController(
     val service: UserService,
 ) {
 
-    @PostMapping(path = [""])
+    @PostMapping
     fun create(@RequestBody userDto: UserDto): ResponseEntity<Any> {
         return service.create(userDto)
     }
@@ -29,7 +29,7 @@ class UserController(
         return service.findAll()
     }
 
-    @PutMapping(path = ["/update"])
+    @PutMapping("/update")
     fun update(@Valid @RequestBody userDto: UserDto): ResponseEntity<Any> {
         return service.update(userDto)
     }

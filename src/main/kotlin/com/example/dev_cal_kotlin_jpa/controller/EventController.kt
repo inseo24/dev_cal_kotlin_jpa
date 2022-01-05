@@ -22,7 +22,7 @@ class EventController(
         return service.create(eventDto)
     }
 
-    @GetMapping(path = ["/{title}"])
+    @GetMapping("/{title}")
     fun findEventListContainsTitle(@PathVariable title: String): MutableList<EventDto> {
         return service.findListContainsTitle(title)
     }

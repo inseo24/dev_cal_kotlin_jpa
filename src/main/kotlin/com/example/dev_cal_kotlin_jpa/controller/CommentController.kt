@@ -16,7 +16,7 @@ class CommentController(
         return service.findAll()
     }
 
-    @GetMapping(path = ["/{boardId}"])
+    @GetMapping("/{boardId}")
     fun findCommentsByBoardId(@PathVariable boardId: Long): MutableList<CommentDto> {
         return service.findCommentsByBoardId(boardId)
     }
