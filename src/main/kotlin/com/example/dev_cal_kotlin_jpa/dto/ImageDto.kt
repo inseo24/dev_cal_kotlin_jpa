@@ -4,8 +4,8 @@ import org.springframework.web.multipart.MultipartFile
 
 
 data class ImageDto(
-        var file: MultipartFile,
-        var boardId: Long,
+        val file: MultipartFile,
+        val boardId: Long,
 )
 
 

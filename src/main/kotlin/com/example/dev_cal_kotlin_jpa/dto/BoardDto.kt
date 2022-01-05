@@ -4,16 +4,16 @@ import javax.validation.constraints.NotBlank
 
 data class BoardDto(
 
-        var id: Long? = null,
+        val id: Long? = null,
 
         @field:NotBlank
-        var title: String = "",
+        val title: String = "",
 
         @field:NotBlank
-        var content: String = "",
+        val content: String = "",
 
-        var user: UserDto? = null,
-        var comments: MutableList<CommentDto> = mutableListOf(),
-        var images: MutableList<ImageDto> = mutableListOf(),
+        val user: UserDto? = null,
+        val comments: MutableList<CommentDto> = mutableListOf(),
+        val images: MutableList<ImageDto> = mutableListOf(),
 
         )

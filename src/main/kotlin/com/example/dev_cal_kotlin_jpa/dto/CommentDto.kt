@@ -4,13 +4,13 @@ import javax.validation.constraints.NotBlank
 
 data class CommentDto(
 
-        var id: Long? = null,
+        val id: Long? = null,
 
         @field:NotBlank
-        var user: UserDto? = null,
+        val user: UserDto? = null,
 
         @field:NotBlank
-        var comment: String = "",
+        val comment: String = "",
 
         )
 
