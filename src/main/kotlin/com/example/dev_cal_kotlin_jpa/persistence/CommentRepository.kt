@@ -11,9 +11,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CommentRepository : JpaRepository<Comment, Long>{
 
-    @Query(value = "SELECT * FROM comment WHERE board = :boardId", nativeQuery = true)
-    fun findCommentsListByBoardId(@Param("boardId") boardId: Long ) : MutableList<Comment>
-
+    fun findCommentsByBoardId(boardId: Long) : MutableList<Comment>
  //    @Modifying
  //    @Query(value = "DELETE FROM comment WHERE id = :id AND email = :email", nativeQuery = true)
  //   fun deleteByCommentIdAndUserId(@Param("id") id : Long, @Param("userId") email: String)
