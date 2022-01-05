@@ -25,7 +25,7 @@ class CommentService(
     }
 
     fun findCommentsByBoardId(boardId: Long): MutableList<CommentDto> {
-        return commentRepository.findCommentsByBoardId(boardId)
+        return commentRepository.findAllCommentsByBoardId(boardId)
             .map {
                 modelMapper.map(it, CommentDto::class.java)
             }.toMutableList()

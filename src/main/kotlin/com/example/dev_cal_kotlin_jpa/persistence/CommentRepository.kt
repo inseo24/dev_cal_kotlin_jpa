@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CommentRepository : JpaRepository<Comment, Long> {
 
-    fun findCommentsByBoardId(boardId: Long): MutableList<Comment>
+    fun findAllCommentsByBoardId(boardId: Long): MutableList<Comment>
 
 
     //    @Modifying

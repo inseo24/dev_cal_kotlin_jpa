@@ -15,7 +15,7 @@ class EventService(
 ) {
 
     fun findListContainsTitle(title: String): MutableList<EventDto> {
-        return eventRepository.findEventsByTitleContains(title).map {
+        return eventRepository.findAllEventsByTitleContains(title).map {
             modelMapper.map(it, EventDto::class.java)
         }.toMutableList()
     }
