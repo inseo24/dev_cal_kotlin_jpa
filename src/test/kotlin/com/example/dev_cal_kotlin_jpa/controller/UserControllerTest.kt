@@ -7,22 +7,16 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.Mockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.*
 
 
-// create, update 할 때 넘겨주는 dto가 service 쪽으로 알아서 넘아가서 잘 매퍼로 변환해서 어쩌구 하는 상황이 제대로 안되는 거 같음
-// 이것도 mock 이라 그런건가
 
-// JPA meta model error
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(UserController::class)
 @ActiveProfiles("test")
@@ -61,8 +55,6 @@ internal class UserControllerTest {
         mockMvc.get("/user/email/jnh5@naver.com")
             .andExpect {
                 status { isOk() }
-            }.andExpect {
-                content { MediaType.APPLICATION_JSON }
             }
     }
 
@@ -95,7 +87,6 @@ internal class UserControllerTest {
 
     @Test
     fun delete() {
-
         mockMvc.delete("/user/delete/jnh5@naver.com")
             .andExpect {
                 status { isOk() }
