@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/comment")
 class CommentController(
-        val service: CommentService,
+        val commentService: CommentService,
 ) {
 
     @GetMapping
     fun findAll(): MutableList<CommentDto> {
-        return service.findAll()
+        return commentService.findAll()
     }
 
     @GetMapping("/{boardId}")
     fun findCommentsByBoardId(@PathVariable boardId: Long): MutableList<CommentDto> {
-        return service.findCommentsByBoardId(boardId)
+        return commentService.findCommentsByBoardId(boardId)
     }
 
     @PostMapping(path = ["/{email}/{boardId}"])
@@ -27,7 +27,7 @@ class CommentController(
             @PathVariable email: String,
             @PathVariable boardId: Long,
     ): Comment? {
-        return service.create(commentDto, boardId, email)
+        return commentService.create(commentDto, boardId, email)
     }
 
     @PutMapping(path = ["/{email}/{id}"])
@@ -36,7 +36,7 @@ class CommentController(
             @PathVariable email: String,
             @PathVariable id: Long,
     ): MutableList<CommentDto> {
-        return service.update(commentDto, email, id)
+        return commentService.update(commentDto, email, id)
     }
 
     // 수정 필요

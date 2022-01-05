@@ -8,28 +8,28 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/scrap")
 class ScrapController(
-        val service: ScrapService,
+        val scrapService: ScrapService,
 ) {
 
 
     @PostMapping(path = ["/{email}/{eventId}"])
     fun scrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<Any> {
-        return service.scrap(email, eventId)
+        return scrapService.scrap(email, eventId)
     }
 
     @DeleteMapping(path = ["/{email}/{eventId}"])
     fun unscrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<Any> {
-        return service.deleteScrap(email, eventId)
+        return scrapService.deleteScrap(email, eventId)
     }
 
     @GetMapping
     fun findAll(): MutableList<ScrapDto> {
-        return service.findAll()
+        return scrapService.findAll()
     }
 
     @GetMapping("/{email}")
     fun findUserScraps(@PathVariable email: String): ResponseEntity<Any> {
-        return service.findUsersScrap(email)
+        return scrapService.findUsersScrap(email)
     }
 
 }

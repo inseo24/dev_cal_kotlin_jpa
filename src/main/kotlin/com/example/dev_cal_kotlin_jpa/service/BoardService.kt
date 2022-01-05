@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class BoardService(
     val userRepository: UserRepository,
-    val repo: BoardRepository,
+    val boardRepository: BoardRepository,
     val modelMapper: ModelMapper,
 ) {
     fun create(boardDto: BoardDto, email: String): ResponseEntity<Any> {
@@ -21,27 +21,27 @@ class BoardService(
         return user?.let {
             val entity = modelMapper.map(boardDto, Board::class.java)
             entity.user = user
-            repo.save(entity)
+            boardRepository.save(entity)
             ResponseEntity.ok().build()
         } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
     }
 
     fun findAll(): MutableList<BoardDto> {
-        return repo.findAll()
+        return boardRepository.findAll()
             .map {
                 modelMapper.map(it, BoardDto::class.java)
             }.toMutableList()
     }
 
     fun findOne(id: Long): BoardDto {
-        val entity = repo.findById(id).orElseThrow()
+        val entity = boardRepository.findById(id).orElseThrow()
         return modelMapper.map(entity, BoardDto::class.java)
     }
 
     fun delete(id: Long): ResponseEntity<Any> {
-        val entity = repo.findById(id).orElseThrow()
-        repo.delete(entity)
+        val entity = boardRepository.findById(id).orElseThrow()
+        boardRepository.delete(entity)
         return ResponseEntity(Any(), HttpStatus.OK)
     }
 

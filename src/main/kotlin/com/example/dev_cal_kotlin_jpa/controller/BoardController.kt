@@ -9,27 +9,27 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/board")
 class BoardController(
-        val service: BoardService,
+        val boardService: BoardService,
 ) {
 
     @PostMapping("/{email}")
     fun create(@Valid @RequestBody boardDto: BoardDto, @PathVariable email: String): ResponseEntity<Any> {
-        return service.create(boardDto, email)
+        return boardService.create(boardDto, email)
     }
 
     @GetMapping
     fun findAll(): MutableList<BoardDto> {
-        return service.findAll()
+        return boardService.findAll()
     }
 
     @GetMapping("/{id}")
     fun findOne(@PathVariable id: Long): BoardDto {
-        return service.findOne(id)
+        return boardService.findOne(id)
     }
 
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<Any> {
-        return service.delete(id)
+        return boardService.delete(id)
     }
 
 

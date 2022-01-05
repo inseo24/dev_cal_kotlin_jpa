@@ -2,6 +2,7 @@ package com.example.dev_cal_kotlin_jpa.service
 
 import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
+import com.example.dev_cal_kotlin_jpa.persistence.EventRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import org.modelmapper.ModelMapper
@@ -14,14 +15,14 @@ import javax.transaction.Transactional
 // 고민 : findOne 이랑 겹치는 코드가 많음 - update, delete 모두 먼저 email validation 하고 넘어감
 @Service
 class UserService(
-    val repo: UserRepository,
+    val userRepository: UserRepository,
     val modelMapper: ModelMapper,
 ) {
 
 
     fun create(userDto: UserDto): ResponseEntity<Any> {
         return try {
-            val result = repo.save(modelMapper.map(userDto, User::class.java))
+            val result = userRepository.save(modelMapper.map(userDto, User::class.java))
             val response = ResponseDto<UserDto>().apply {
                 this.data = modelMapper.map(result, UserDto::class.java)
                 this.status = "200 OK"
@@ -34,7 +35,7 @@ class UserService(
     }
 
     fun findOne(email: String): ResponseEntity<Any> {
-        val result = repo.findByEmail(email)
+        val result = userRepository.findByEmail(email)
         return (result?.let {
             val response = ResponseDto<UserDto>().apply {
                 this.data = modelMapper.map(result, UserDto::class.java)
@@ -45,7 +46,7 @@ class UserService(
     }
 
     fun findAll(): MutableList<UserDto> {
-        return repo.findAll()
+        return userRepository.findAll()
             .map {
                 modelMapper.map(it, UserDto::class.java)
             }.toMutableList()
@@ -53,7 +54,7 @@ class UserService(
 
     @Transactional
     fun update(userDto: UserDto): ResponseEntity<Any> {
-        val user = repo.findByEmail(userDto.email)
+        val user = userRepository.findByEmail(userDto.email)
         return user?.let {
             it.mobileNumber = userDto.mobileNumber
             it.password = userDto.password
@@ -62,9 +63,9 @@ class UserService(
     }
 
     fun delete(email: String): ResponseEntity<Any> {
-        val user = repo.findByEmail(email)
+        val user = userRepository.findByEmail(email)
         return user?.let {
-            repo.deleteById(it.id)
+            userRepository.deleteById(it.id)
             ResponseEntity.status(HttpStatus.OK).build()
         } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
     }

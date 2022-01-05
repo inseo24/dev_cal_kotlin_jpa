@@ -13,19 +13,19 @@ import javax.transaction.Transactional
 class CommentService(
         val boardRepository: BoardRepository,
         val userRepository: UserRepository,
-        val repo: CommentRepository,
+        val commentRepository: CommentRepository,
         val modelMapper: ModelMapper,
 ) {
 
     fun findAll(): MutableList<CommentDto> {
-        return repo.findAll()
+        return commentRepository.findAll()
             .map {
                 modelMapper.map(it, CommentDto::class.java)
             }.toMutableList()
     }
 
     fun findCommentsByBoardId(boardId: Long): MutableList<CommentDto> {
-        return repo.findCommentsByBoardId(boardId)
+        return commentRepository.findCommentsByBoardId(boardId)
             .map {
                 modelMapper.map(it, CommentDto::class.java)
             }.toMutableList()
@@ -36,7 +36,7 @@ class CommentService(
         val user = userRepository.findByEmail(email)
         val entity = user?.let { Comment(commentDto.comment, it, boardEntity) }
         return entity?.let {
-            repo.save(entity)
+            commentRepository.save(entity)
         }
     }
 
@@ -45,7 +45,7 @@ class CommentService(
     fun update(commentDto: CommentDto, email: String, id: Long): MutableList<CommentDto> {
         val user = userRepository.findByEmail(email)
         user?.let {
-            var original = repo.findById(id).orElseThrow()
+            var original = commentRepository.findById(id).orElseThrow()
             if (original.user == user) {
                 original.comment = commentDto.comment
             } else {

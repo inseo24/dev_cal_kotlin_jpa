@@ -17,7 +17,7 @@ import javax.transaction.Transactional
 class ScrapService(
     val userRepo: UserRepository,
     val eventRepository: EventRepository,
-    val repo: ScrapRepository,
+    val scrapRepository: ScrapRepository,
     val modelMapper: ModelMapper,
 ) {
 
@@ -27,7 +27,7 @@ class ScrapService(
         val userId = user?.id
         userId?.let {
             eventRepository.findById(eventId).orElseThrow()
-            repo.deleteScrapByEventIdAndUserId(eventId, userId)
+            scrapRepository.deleteScrapByEventIdAndUserId(eventId, userId)
             return ResponseEntity.ok().build()
         } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
@@ -39,14 +39,14 @@ class ScrapService(
         val userId = user?.id
         userId?.let {
             eventRepository.findById(eventId).orElseThrow()
-            repo.scrap(eventId, userId)
+            scrapRepository.scrap(eventId, userId)
             return ResponseEntity.ok().build()
         } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
 
     }
 
     fun findAll(): MutableList<ScrapDto> {
-        return repo.findAll()
+        return scrapRepository.findAll()
             .map {
                 modelMapper.map(it, ScrapDto::class.java)
             }.toMutableList()
@@ -56,7 +56,7 @@ class ScrapService(
         val user = userRepo.findByEmail(email)
         val userId = user?.id
         return userId?.let {
-            val result = repo.findAllByUserId(userId)
+            val result = scrapRepository.findAllByUserId(userId)
                 .map {
                     modelMapper.map(it, ScrapDto::class.java)
                 }.toMutableList()

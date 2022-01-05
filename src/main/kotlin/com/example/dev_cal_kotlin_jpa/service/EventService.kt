@@ -10,25 +10,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class EventService(
-        val repo: EventRepository,
+        val eventRepository: EventRepository,
         val modelMapper: ModelMapper,
 ) {
 
     fun findListContainsTitle(title: String): MutableList<EventDto> {
-        return repo.findEventsByTitleContains(title).map {
+        return eventRepository.findEventsByTitleContains(title).map {
             modelMapper.map(it, EventDto::class.java)
         }.toMutableList()
     }
 
     fun findAll(): MutableList<EventDto> {
-        return repo.findAll()
+        return eventRepository.findAll()
             .map {
                 modelMapper.map(it, EventDto::class.java)
             }.toMutableList()
     }
 
     fun create(eventDto: EventDto): ResponseEntity<Any> {
-        val entity = repo.save(modelMapper.map(eventDto, Event::class.java))
+        val entity = eventRepository.save(modelMapper.map(eventDto, Event::class.java))
         val response = ResponseDto<EventDto>().apply {
             this.data = modelMapper.map(entity, EventDto::class.java)
             this.status = "200 OK"
