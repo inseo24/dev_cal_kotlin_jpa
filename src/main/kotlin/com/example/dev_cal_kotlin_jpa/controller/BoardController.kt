@@ -23,8 +23,8 @@ class BoardController (
         }
 
         @GetMapping(path = ["/{id}"])
-        fun findOne(@PathVariable id : String): BoardDto{
-                return service.findOne(id.toLong())
+        fun findOne(@PathVariable id : Long): BoardDto{
+                return service.findOne(id)
         }
 
         @DeleteMapping(path=["/{id}"])

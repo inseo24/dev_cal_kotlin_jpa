@@ -17,18 +17,18 @@ class CommentController (
         }
 
         @GetMapping(path = ["/{boardId}"])
-        fun findCommentsByBoardId(@PathVariable boardId : String) : MutableList<CommentDto> {
-                return service.findCommentsByBoardId(boardId.toLong())
+        fun findCommentsByBoardId(@PathVariable boardId : Long) : MutableList<CommentDto> {
+                return service.findCommentsByBoardId(boardId)
         }
 
         @PostMapping(path = ["/{email}/{boardId}"])
-        fun create(@RequestBody commentDto: CommentDto, @PathVariable email : String, @PathVariable boardId: String): Comment? {
-                return service.create(commentDto, boardId.toLong(), email)
+        fun create(@RequestBody commentDto: CommentDto, @PathVariable email : String, @PathVariable boardId: Long): Comment? {
+                return service.create(commentDto, boardId, email)
         }
 
         @PutMapping(path = ["/{email}/{id}"])
-        fun update(@RequestBody commentDto: CommentDto, @PathVariable email: String, @PathVariable id : String): MutableList<CommentDto>{
-                return service.update(commentDto, email, id.toLong())
+        fun update(@RequestBody commentDto: CommentDto, @PathVariable email: String, @PathVariable id : Long): MutableList<CommentDto>{
+                return service.update(commentDto, email, id)
         }
 
         // 수정 필요
