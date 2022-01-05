@@ -11,11 +11,11 @@ data class Event(
 
         var title: String,
 
-        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-        var start: LocalDateTime,
+        @JsonProperty("start_date")
+        var startDate: LocalDateTime,
 
-        @JsonFormat(pattern = "YYYY-MM-dd HH:mm")
-        var end: LocalDateTime,
+        @JsonProperty("end_date")
+        var endDate: LocalDateTime,
 
         var host: String,
 

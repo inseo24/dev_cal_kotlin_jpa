@@ -13,8 +13,8 @@ data class EventDto(
         @field:NotBlank
         var title: String = "",
 
-        var start: LocalDateTime? = null,
-        var end: LocalDateTime? = null,
+        var startDate: LocalDateTime? = null,
+        var endDate: LocalDateTime? = null,
 
         var host: String = "",
         var timeRequired: String = "",
