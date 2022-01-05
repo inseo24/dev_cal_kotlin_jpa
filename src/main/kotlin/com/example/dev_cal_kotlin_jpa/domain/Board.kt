@@ -1,5 +1,6 @@
 package com.example.dev_cal_kotlin_jpa.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
@@ -7,19 +8,19 @@ import javax.persistence.*
 @Table(name = "board")
 data class Board (
 
-
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
         var user : User,
 
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board")
+        @JsonIgnore
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
         var images : MutableList<Image> = mutableListOf(),
 
-        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board")
+        @JsonIgnore
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "board", fetch = FetchType.LAZY)
         var comments : MutableList<Comment> = mutableListOf(),
 
         var title : String,
         var content : String,
-
 
         ) : BaseEntity()

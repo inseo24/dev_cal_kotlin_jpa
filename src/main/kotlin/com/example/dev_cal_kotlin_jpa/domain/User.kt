@@ -17,13 +17,13 @@ data class User (
         @JsonProperty("mobile_number")
         var mobileNumber: String,
 
-        @OneToMany(mappedBy = "user")
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
         var comments : MutableList<Comment> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+        @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
         var boards : MutableList<Board> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
+        @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
         var events : MutableList<Event> = mutableListOf()
 
         ) : BaseEntity()

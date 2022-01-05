@@ -10,7 +10,7 @@ data class Comment (
         @Column(length = 100, nullable = false)
         var comment : String,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
         @JsonIgnore
         val user: User,

@@ -3,10 +3,7 @@ package com.example.dev_cal_kotlin_jpa.domain
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "event")
@@ -33,10 +30,8 @@ data class Event (
         @JsonProperty("related_link")
         var relatedLink : String,
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user")
         var user: User
-
-
 
         ) : BaseEntity()
