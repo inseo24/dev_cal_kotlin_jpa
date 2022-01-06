@@ -50,13 +50,20 @@ class ControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException::class)
-    fun handleHttpMediaTypeNotAcceptableException(): ResponseEntity<Any> {
+    fun handleHttpMediaTypeNotAcceptableException(): ResponseEntity<HttpStatus> {
         return ResponseEntity.ok().build()
     }
 
     @ResponseBody
     @ExceptionHandler(NoSuchElementException::class)
-    fun noSuchElementException(): ResponseEntity<Any> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+    fun noSuchElementException(): ResponseEntity<HttpStatus> {
+        return ResponseEntity.badRequest().build()
     }
+
+    @ResponseBody
+    @ExceptionHandler(RuntimeException::class)
+    fun runtimeException() : ResponseEntity<HttpStatus> {
+        return ResponseEntity.badRequest().build()
+    }
+
 }

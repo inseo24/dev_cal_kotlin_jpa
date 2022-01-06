@@ -17,7 +17,7 @@ class UserController(
 ) {
 
     @PostMapping
-    fun create(@RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
+    fun create(@RequestBody @Valid userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
         return userService.create(userDto)
     }
 
