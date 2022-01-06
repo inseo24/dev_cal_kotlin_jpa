@@ -1,6 +1,7 @@
 package com.example.dev_cal_kotlin_jpa.controller
 
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
+import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,27 +16,27 @@ class UserController(
 ) {
 
     @PostMapping
-    fun create(@RequestBody userDto: UserDto): ResponseEntity<Any> {
+    fun create(@RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
         return userService.create(userDto)
     }
 
     @GetMapping(path = ["/email/{email}"])
-    fun findOne(@PathVariable email: String): ResponseEntity<Any> {
+    fun findOne(@PathVariable email: String): ResponseEntity<ResponseDto<UserDto>> {
         return userService.findOne(email)
     }
 
     @GetMapping
-    fun findAll(): MutableList<UserDto> {
+    fun findAll(): ResponseEntity<ResponseDto<UserDto>> {
         return userService.findAll()
     }
 
     @PutMapping("/update")
-    fun update(@Valid @RequestBody userDto: UserDto): ResponseEntity<Any> {
+    fun update(@Valid @RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
         return userService.update(userDto)
     }
 
     @DeleteMapping(path = ["/delete/{email}"])
-    fun delete(@Valid @PathVariable email: String): ResponseEntity<Any> {
+    fun delete(@Valid @PathVariable email: String): ResponseEntity<ResponseDto<String>> {
         return userService.delete(email)
     }
 

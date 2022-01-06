@@ -29,7 +29,7 @@ class BoardController(
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): ResponseEntity.BodyBuilder {
+    fun delete(@PathVariable id: Long): ResponseEntity<ResponseDto<String>> {
         return boardService.delete(id)
     }
 

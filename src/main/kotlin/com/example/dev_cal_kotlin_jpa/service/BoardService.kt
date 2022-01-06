@@ -46,10 +46,13 @@ class BoardService(
         return ResponseEntity.ok().body(response)
     }
 
-    fun delete(id: Long): ResponseEntity.BodyBuilder {
+    fun delete(id: Long): ResponseEntity<ResponseDto<String>> {
         val entity = boardRepository.findById(id).orElseThrow()
         boardRepository.delete(entity)
-        return ResponseEntity.ok()
+        val response = ResponseDto<String>().apply {
+            this.status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
     }
 
 }
