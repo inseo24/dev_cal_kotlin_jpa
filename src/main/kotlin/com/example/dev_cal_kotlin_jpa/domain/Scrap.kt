@@ -14,6 +14,6 @@ class Scrap(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
-    val user: User,
+    var user: User,
 
     ) : BaseEntity()

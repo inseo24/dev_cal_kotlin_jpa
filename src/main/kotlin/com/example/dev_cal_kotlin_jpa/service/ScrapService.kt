@@ -1,5 +1,6 @@
 package com.example.dev_cal_kotlin_jpa.service
 
+import com.example.dev_cal_kotlin_jpa.domain.Scrap
 import com.example.dev_cal_kotlin_jpa.dto.ScrapDto
 import com.example.dev_cal_kotlin_jpa.persistence.EventRepository
 import com.example.dev_cal_kotlin_jpa.persistence.ScrapRepository
@@ -14,7 +15,7 @@ import javax.transaction.Transactional
 
 @Service
 class ScrapService(
-    val userRepo: UserRepository,
+    val userRepository: UserRepository,
     val eventRepository: EventRepository,
     val scrapRepository: ScrapRepository,
     val modelMapper: ModelMapper,
@@ -22,7 +23,7 @@ class ScrapService(
 
     @Transactional
     fun deleteScrap(email: String, eventId: Long): ResponseEntity<HttpStatus> {
-        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
+        val user = userRepository.findByEmail(email) ?: throw RuntimeException()
         eventRepository.findById(eventId).orElseThrow()
         scrapRepository.deleteScrapByEventIdAndUserId(eventId, user.id)
         return ResponseEntity.ok().build()
@@ -30,9 +31,10 @@ class ScrapService(
 
     @Transactional
     fun scrap(email: String, eventId: Long): ResponseEntity<HttpStatus> {
-        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
-        eventRepository.findById(eventId).orElseThrow()
-        scrapRepository.scrap(eventId, user.id)
+        val user = userRepository.findByEmail(email) ?: throw RuntimeException()
+        val event = eventRepository.findById(eventId).orElseThrow()
+        val entity = Scrap(event, user)
+        scrapRepository.save(entity)
         return ResponseEntity.ok().build()
     }
 
@@ -46,7 +48,7 @@ class ScrapService(
     }
 
     fun findUsersScrap(email: String): ResponseEntity<ResponseDto<ScrapDto>> {
-        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
+        val user = userRepository.findByEmail(email) ?: throw RuntimeException()
         val result = scrapRepository.findAllByUserId(user.id).map { modelMapper.map(it, ScrapDto::class.java) }
         val response = ResponseDto<ScrapDto>().apply {
             this.data = result
