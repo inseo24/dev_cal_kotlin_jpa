@@ -10,24 +10,30 @@ import org.springframework.stereotype.Service
 
 @Service
 class EventService(
-        val eventRepository: EventRepository,
-        val modelMapper: ModelMapper,
+    val eventRepository: EventRepository,
+    val modelMapper: ModelMapper,
 ) {
 
-    fun findListContainsTitle(title: String): MutableList<EventDto> {
-        return eventRepository.findAllEventsByTitleContains(title).map {
-            modelMapper.map(it, EventDto::class.java)
-        }.toMutableList()
+    fun findAllContainsTitle(title: String): ResponseEntity<ResponseDto<EventDto>> {
+        val result =
+            eventRepository.findAllEventsByTitleContains(title).map { modelMapper.map(it, EventDto::class.java) }
+        val response = ResponseDto<EventDto>().apply {
+            data = result
+            status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
     }
 
-    fun findAll(): MutableList<EventDto> {
-        return eventRepository.findAll()
-            .map {
-                modelMapper.map(it, EventDto::class.java)
-            }.toMutableList()
+    fun findAll(): ResponseEntity<ResponseDto<EventDto>> {
+        val result = eventRepository.findAll().map { modelMapper.map(it, EventDto::class.java) }
+        val response = ResponseDto<EventDto>().apply {
+            data = result
+            status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
     }
 
-    fun create(eventDto: EventDto): ResponseEntity<Any> {
+    fun create(eventDto: EventDto): ResponseEntity<ResponseDto<EventDto>> {
         val entity = eventRepository.save(modelMapper.map(eventDto, Event::class.java))
         val response = ResponseDto<EventDto>().apply {
             this.data = modelMapper.map(entity, EventDto::class.java)
