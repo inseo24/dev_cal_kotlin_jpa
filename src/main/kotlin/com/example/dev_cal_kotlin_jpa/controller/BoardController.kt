@@ -3,6 +3,7 @@ package com.example.dev_cal_kotlin_jpa.controller
 import com.example.dev_cal_kotlin_jpa.dto.BoardDto
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.BoardService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -29,7 +30,7 @@ class BoardController(
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long): ResponseEntity<ResponseDto<String>> {
+    fun delete(@PathVariable id: Long): ResponseEntity<HttpStatus> {
         return boardService.delete(id)
     }
 

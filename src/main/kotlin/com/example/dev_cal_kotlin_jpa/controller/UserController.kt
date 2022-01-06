@@ -3,6 +3,7 @@ package com.example.dev_cal_kotlin_jpa.controller
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -36,7 +37,7 @@ class UserController(
     }
 
     @DeleteMapping(path = ["/delete/{email}"])
-    fun delete(@Valid @PathVariable email: String): ResponseEntity<ResponseDto<String>> {
+    fun delete(@Valid @PathVariable email: String): ResponseEntity<HttpStatus> {
         return userService.delete(email)
     }
 

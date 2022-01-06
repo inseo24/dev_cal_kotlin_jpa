@@ -6,6 +6,7 @@ import com.example.dev_cal_kotlin_jpa.persistence.BoardRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import org.modelmapper.ModelMapper
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import kotlin.RuntimeException
@@ -46,13 +47,10 @@ class BoardService(
         return ResponseEntity.ok().body(response)
     }
 
-    fun delete(id: Long): ResponseEntity<ResponseDto<String>> {
+    fun delete(id: Long): ResponseEntity<HttpStatus> {
         val entity = boardRepository.findById(id).orElseThrow()
         boardRepository.delete(entity)
-        val response = ResponseDto<String>().apply {
-            this.status = "200 OK"
-        }
-        return ResponseEntity.ok().body(response)
+        return ResponseEntity.ok().build()
     }
 
 }
