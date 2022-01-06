@@ -10,7 +10,7 @@ import java.util.*
 interface BoardRepository : JpaRepository<Board, Long> {
 
     @EntityGraph(attributePaths = ["user"], type = EntityGraph.EntityGraphType.FETCH)
-    override fun findAll() : MutableList<Board>
+    override fun findAll() : List<Board>
 
     @EntityGraph(attributePaths = ["user"], type = EntityGraph.EntityGraphType.FETCH)
     override fun findById(id: Long): Optional<Board>
