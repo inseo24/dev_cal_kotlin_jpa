@@ -18,9 +18,5 @@ interface CommentRepository : JpaRepository<Comment, Long> {
     @EntityGraph(attributePaths = ["user", "board"], type = EntityGraph.EntityGraphType.FETCH)
     override fun findById(id: Long): Optional<Comment>
 
-
-    //    @Modifying
-    //    @Query(value = "DELETE FROM comment WHERE id = :id AND email = :email", nativeQuery = true)
-    //   fun deleteByCommentIdAndUserId(@Param("id") id : Long, @Param("userId") email: String)
-
+    fun deleteCommentByIdAndUserId(id: Long, userId: Long)
 }

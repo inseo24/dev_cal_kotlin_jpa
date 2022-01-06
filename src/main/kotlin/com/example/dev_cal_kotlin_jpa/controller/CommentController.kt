@@ -3,6 +3,7 @@ package com.example.dev_cal_kotlin_jpa.controller
 import com.example.dev_cal_kotlin_jpa.dto.CommentDto
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.CommentService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -40,9 +41,8 @@ class CommentController(
         return commentService.update(commentDto, email, id)
     }
 
-    // 수정 필요
-    // @DeleteMapping(path = ["/{email}/{id}"])
-    // fun delete(@PathVariable email: String, @PathVariable id : Long){
-    //         return service.delete(id, email)
-    // }
+    @DeleteMapping(path = ["/{email}/{id}"])
+    fun delete(@PathVariable email: String, @PathVariable id: Long): ResponseEntity<HttpStatus> {
+        return commentService.delete(id, email)
+    }
 }

@@ -7,6 +7,7 @@ import com.example.dev_cal_kotlin_jpa.persistence.CommentRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import org.modelmapper.ModelMapper
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -62,9 +63,16 @@ class CommentService(
         return findAll()
     }
 
-    // 수정 필요
-    // fun delete(id : Long, email: String) {
-    //         repo.deleteByCommentIdAndUserId(id, email)
-    // }
+    @Transactional
+    fun delete(id: Long, email: String): ResponseEntity<HttpStatus> {
+        val user = userRepository.findByEmail(email) ?: throw RuntimeException()
+        val original = commentRepository.findById(id).orElseThrow()
+        if (original.user == user) {
+            commentRepository.deleteCommentByIdAndUserId(id, user.id)
+        } else {
+            throw RuntimeException()
+        }
+        return ResponseEntity.ok().build()
+    }
 
 }

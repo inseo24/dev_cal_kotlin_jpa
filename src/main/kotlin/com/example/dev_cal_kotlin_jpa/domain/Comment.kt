@@ -16,7 +16,7 @@ class Comment(
     val user: User,
 
     @JoinColumn(name = "board")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     val board: Board,
 
