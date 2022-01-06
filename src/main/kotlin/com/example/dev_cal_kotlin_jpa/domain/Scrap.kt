@@ -8,7 +8,7 @@ import javax.persistence.*
 class Scrap(
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "events")
+    @JoinColumn(name = "event")
     @JsonIgnore
     var event: Event,
 
