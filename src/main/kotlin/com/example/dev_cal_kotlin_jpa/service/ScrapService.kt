@@ -22,51 +22,37 @@ class ScrapService(
 ) {
 
     @Transactional
-    fun deleteScrap(email: String, eventId: Long): ResponseEntity<Any> {
-        val user = userRepo.findByEmail(email)
-        val userId = user?.id
-        userId?.let {
-            eventRepository.findById(eventId).orElseThrow()
-            scrapRepository.deleteScrapByEventIdAndUserId(eventId, userId)
-            return ResponseEntity.ok().build()
-        } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-
+    fun deleteScrap(email: String, eventId: Long): ResponseEntity<HttpStatus> {
+        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
+        eventRepository.findById(eventId).orElseThrow()
+        scrapRepository.deleteScrapByEventIdAndUserId(eventId, user.id)
+        return ResponseEntity.ok().build()
     }
 
     @Transactional
-    fun scrap(email: String, eventId: Long): ResponseEntity<Any> {
-        val user = userRepo.findByEmail(email)
-        val userId = user?.id
-        userId?.let {
-            eventRepository.findById(eventId).orElseThrow()
-            scrapRepository.scrap(eventId, userId)
-            return ResponseEntity.ok().build()
-        } ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
-
+    fun scrap(email: String, eventId: Long): ResponseEntity<HttpStatus> {
+        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
+        eventRepository.findById(eventId).orElseThrow()
+        scrapRepository.scrap(eventId, user.id)
+        return ResponseEntity.ok().build()
     }
 
-    fun findAll(): MutableList<ScrapDto> {
-        return scrapRepository.findAll()
-            .map {
-                modelMapper.map(it, ScrapDto::class.java)
-            }.toMutableList()
+    fun findAll(): ResponseEntity<ResponseDto<ScrapDto>> {
+        val result = scrapRepository.findAll().map { modelMapper.map(it, ScrapDto::class.java) }
+        val response = ResponseDto<ScrapDto>().apply {
+            data = result
+            status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
     }
 
-    fun findUsersScrap(email: String): ResponseEntity<Any> {
-        val user = userRepo.findByEmail(email)
-        val userId = user?.id
-        return userId?.let {
-            val result = scrapRepository.findAllByUserId(userId)
-                .map {
-                    modelMapper.map(it, ScrapDto::class.java)
-                }.toMutableList()
-
-            val response = ResponseDto<UserDto>().apply {
-                this.data = result
-                this.status = "200 OK"
-            }
-            ResponseEntity.ok().body(response)
-
-        } ?: ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+    fun findUsersScrap(email: String): ResponseEntity<ResponseDto<ScrapDto>> {
+        val user = userRepo.findByEmail(email) ?: throw RuntimeException()
+        val result = scrapRepository.findAllByUserId(user.id).map { modelMapper.map(it, ScrapDto::class.java) }
+        val response = ResponseDto<ScrapDto>().apply {
+            this.data = result
+            this.status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
     }
 }
