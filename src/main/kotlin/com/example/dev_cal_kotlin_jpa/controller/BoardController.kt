@@ -11,11 +11,14 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/board")
 class BoardController(
-        val boardService: BoardService,
+    val boardService: BoardService,
 ) {
 
     @PostMapping("/{email}")
-    fun create(@Valid @RequestBody boardDto: BoardDto, @PathVariable email: String): ResponseEntity<ResponseDto<BoardDto>> {
+    fun create(
+        @Valid @RequestBody boardDto: BoardDto,
+        @PathVariable email: String,
+    ): ResponseEntity<ResponseDto<BoardDto>> {
         return boardService.create(boardDto, email)
     }
 

@@ -30,4 +30,4 @@ data class Error(
     var message: String? = null,
     var value: Any? = null,
 
-)
+    )

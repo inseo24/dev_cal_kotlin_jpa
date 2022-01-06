@@ -62,7 +62,7 @@ class ControllerAdvice {
 
     @ResponseBody
     @ExceptionHandler(RuntimeException::class)
-    fun runtimeException() : ResponseEntity<HttpStatus> {
+    fun runtimeException(): ResponseEntity<HttpStatus> {
         return ResponseEntity.badRequest().build()
     }
 

@@ -2,7 +2,6 @@ package com.example.dev_cal_kotlin_jpa
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
 @SpringBootApplication
 class DevCalKotlinJpaApplication

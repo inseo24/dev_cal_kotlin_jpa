@@ -50,7 +50,6 @@ class CommentService(
         return ResponseEntity.ok().body(response)
     }
 
-
     @Transactional
     fun update(commentDto: CommentDto, email: String, id: Long): ResponseEntity<ResponseDto<CommentDto>> {
         val user = userRepository.findByEmail(email) ?: throw RuntimeException()

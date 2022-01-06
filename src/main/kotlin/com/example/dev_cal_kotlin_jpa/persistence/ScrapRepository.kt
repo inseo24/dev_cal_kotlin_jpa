@@ -1,6 +1,5 @@
 package com.example.dev_cal_kotlin_jpa.persistence
 
-import com.example.dev_cal_kotlin_jpa.domain.Board
 import com.example.dev_cal_kotlin_jpa.domain.Scrap
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
@@ -17,6 +16,7 @@ interface ScrapRepository : JpaRepository<Scrap, Long> {
     fun scrap(@Param("eventId") eventId: Long, @Param("userId") userId: Long)
 
     fun deleteScrapByEventIdAndUserId(eventId: Long, userId: Long)
+
 
     @EntityGraph(attributePaths = ["event"], type = EntityGraph.EntityGraphType.FETCH)
     fun findAllByUserId(userId: Long): List<Scrap>

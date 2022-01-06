@@ -1,7 +1,6 @@
 package com.example.dev_cal_kotlin_jpa.service
 
 import com.example.dev_cal_kotlin_jpa.dto.ScrapDto
-import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.EventRepository
 import com.example.dev_cal_kotlin_jpa.persistence.ScrapRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
