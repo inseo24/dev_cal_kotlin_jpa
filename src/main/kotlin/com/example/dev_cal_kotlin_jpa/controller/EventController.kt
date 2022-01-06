@@ -24,8 +24,8 @@ class EventController(
     }
 
     @GetMapping("/{title}")
-    fun findEventListContainsTitle(@PathVariable title: String): ResponseEntity<ResponseDto<EventDto>> {
-        return eventService.findAllContainsTitle(title)
+    fun findAllEventsContainsTitle(@PathVariable title: String): ResponseEntity<ResponseDto<EventDto>> {
+        return eventService.findAllEventsContainsTitle(title)
     }
 
 }

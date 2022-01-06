@@ -21,6 +21,7 @@ class BoardService(
         val user = userRepository.findByEmail(email) ?: throw RuntimeException()
         val entity = modelMapper.map(boardDto, Board::class.java)
         entity.user = user
+
         val result = boardRepository.save(entity)
         val response = ResponseDto<BoardDto>().apply {
             this.data = modelMapper.map(result, BoardDto::class.java)

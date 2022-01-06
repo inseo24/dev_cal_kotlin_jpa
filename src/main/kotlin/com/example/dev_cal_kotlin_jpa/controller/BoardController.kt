@@ -34,5 +34,4 @@ class BoardController(
         return boardService.delete(id)
     }
 
-
 }

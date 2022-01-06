@@ -18,7 +18,7 @@ class CommentController(
     }
 
     @GetMapping("/{boardId}")
-    fun findCommentsByBoardId(@PathVariable boardId: Long): ResponseEntity<ResponseDto<CommentDto>> {
+    fun findAllCommentsByBoardId(@PathVariable boardId: Long): ResponseEntity<ResponseDto<CommentDto>> {
         return commentService.findAllCommentsByBoardId(boardId)
     }
 

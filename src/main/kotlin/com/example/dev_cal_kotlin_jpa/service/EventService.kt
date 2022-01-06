@@ -14,7 +14,7 @@ class EventService(
     val modelMapper: ModelMapper,
 ) {
 
-    fun findAllContainsTitle(title: String): ResponseEntity<ResponseDto<EventDto>> {
+    fun findAllEventsContainsTitle(title: String): ResponseEntity<ResponseDto<EventDto>> {
         val result =
             eventRepository.findAllEventsByTitleContains(title).map { modelMapper.map(it, EventDto::class.java) }
         val response = ResponseDto<EventDto>().apply {
