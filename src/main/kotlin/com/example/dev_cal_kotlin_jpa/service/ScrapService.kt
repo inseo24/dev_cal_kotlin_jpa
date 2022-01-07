@@ -47,7 +47,7 @@ class ScrapService(
         return ResponseEntity.ok().body(response)
     }
 
-    fun findUsersScrap(email: String): ResponseEntity<ResponseDto<ScrapDto>> {
+    fun findAllUsersScrap(email: String): ResponseEntity<ResponseDto<ScrapDto>> {
         val user = userRepository.findByEmail(email) ?: throw RuntimeException()
         val result = scrapRepository.findAllByUserId(user.id).map { modelMapper.map(it, ScrapDto::class.java) }
         val response = ResponseDto<ScrapDto>().apply {

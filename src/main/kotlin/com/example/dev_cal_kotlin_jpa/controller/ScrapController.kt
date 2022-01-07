@@ -19,7 +19,7 @@ class ScrapController(
     }
 
     @DeleteMapping(path = ["/{email}/{eventId}"])
-    fun unscrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<HttpStatus> {
+    fun deleteScrap(@PathVariable email: String, @PathVariable eventId: Long): ResponseEntity<HttpStatus> {
         return scrapService.deleteScrap(email, eventId)
     }
 
@@ -30,7 +30,7 @@ class ScrapController(
 
     @GetMapping("/{email}")
     fun findUserScraps(@PathVariable email: String): ResponseEntity<ResponseDto<ScrapDto>> {
-        return scrapService.findUsersScrap(email)
+        return scrapService.findAllUsersScrap(email)
     }
 
 }
