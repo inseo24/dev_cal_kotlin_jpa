@@ -37,12 +37,12 @@ internal class UserServiceTest {
     lateinit var modelMapper: ModelMapper
 
     @Mock
-    lateinit var repo: UserRepository
+    lateinit var userRepository: UserRepository
 
 
     @AfterEach
     private fun cleanUp() {
-        repo.deleteAll()
+        userRepository.deleteAll()
     }
 
     // 다른 대안(?)
@@ -101,8 +101,8 @@ internal class UserServiceTest {
 
         // 추가
         var entity = modelMapper.map(userDto, User::class.java)
-        `when`(repo.save(entity)).thenReturn(entity)
-        val result2 = repo.save(entity)
+        `when`(userRepository.save(entity)).thenReturn(entity)
+        val result2 = userRepository.save(entity)
         assertThat(result2.name).isEqualTo(userDto.name)
         assertThat(result2.email).isEqualTo(userDto.email)
         assertThat(result2.id).isNotNull
@@ -118,8 +118,8 @@ internal class UserServiceTest {
             password = "1234@tjdls",
             mobileNumber = "010-7685-1281"
         )
-        `when`(repo.findByEmail(user1.email)).thenReturn(user1)
-        val savedUser = repo.findByEmail("jnh1@naver.com")
+        `when`(userRepository.findByEmail(user1.email)).thenReturn(user1)
+        val savedUser = userRepository.findByEmail("jnh1@naver.com")
         assertThat(savedUser?.email).isEqualTo(user1.email)
     }
 
@@ -146,9 +146,9 @@ internal class UserServiceTest {
         )
         val users = mutableListOf(user1, user2, user3)
 
-        repo.saveAll(users)
-        `when`(repo.findAll()).thenReturn(users)
-        var userList = repo.findAll()
+        userRepository.saveAll(users)
+        `when`(userRepository.findAll()).thenReturn(users)
+        val userList = userRepository.findAll()
         assertThat(userList).isEqualTo(users)
 
     }
@@ -170,12 +170,12 @@ internal class UserServiceTest {
             mobileNumber = "010-5678-1234"
         )
 
-        `when`(repo.findByEmail((userDto.email))).thenReturn(user)
+        `when`(userRepository.findByEmail((userDto.email))).thenReturn(user)
 
         user.mobileNumber = userDto.mobileNumber
         user.password = userDto.password
 
-        var updateUserInfo = user.email.let { repo.findByEmail(it) }
+        var updateUserInfo = user.email.let { userRepository.findByEmail(it) }
         assertThat(updateUserInfo?.mobileNumber).isEqualTo(userDto.mobileNumber)
         assertThat(updateUserInfo?.password).isEqualTo(userDto.password)
 
@@ -190,11 +190,11 @@ internal class UserServiceTest {
             password = "1234@tjdls",
             mobileNumber = "010-7685-1281"
         )
-        repo.save(user)
-        val savedUser = repo.findByEmail(user.email)
-        savedUser?.let { repo.deleteById(it.id) }
+        userRepository.save(user)
+        val savedUser = userRepository.findByEmail(user.email)
+        savedUser?.let { userRepository.deleteById(it.id) }
 
-        val isUserDeleted = repo.findByEmail(user.email)
+        val isUserDeleted = userRepository.findByEmail(user.email)
         assertThat(isUserDeleted).isEqualTo(null)
     }
 
