@@ -18,7 +18,8 @@ class UserService(
 
 
     fun create(userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
-        val result = userRepository.save(modelMapper.map(userDto, User::class.java))
+        val entity = modelMapper.map(userDto, User::class.java)
+        val result = userRepository.save(entity)
         val response = ResponseDto<UserDto>().apply {
             this.data = modelMapper.map(result, UserDto::class.java)
             this.status = "200 OK"
