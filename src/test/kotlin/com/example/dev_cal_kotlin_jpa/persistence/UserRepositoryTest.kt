@@ -1,7 +1,6 @@
-package com.example.dev_cal_kotlin_jpa.repository
+package com.example.dev_cal_kotlin_jpa.persistence
 
 import com.example.dev_cal_kotlin_jpa.domain.User
-import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -20,7 +19,7 @@ class UserRepositoryTest {
     lateinit var userRepository: UserRepository
 
     @Test
-    @DisplayName("user data 1개를 저장한다")
+    @DisplayName("user entity 1개를 저장한다")
     fun saveUserTest() {
         val user = User(
             "seoin",
@@ -38,8 +37,8 @@ class UserRepositoryTest {
     }
 
     @Test
-    @DisplayName("user data를 여러 개 저장한다.")
-    fun saveAllUsersTest() {
+    @DisplayName("user entities 여러 개 저장한다.")
+    fun saveAllandFindAllTest() {
         val userList = mutableListOf(
             User(
                 "서인",
@@ -62,15 +61,14 @@ class UserRepositoryTest {
 
         )
 
-        var result = userRepository.saveAll(userList)
-
+        userRepository.saveAll(userList)
+        val result = userRepository.findAll()
         assertThat(result).isEqualTo(userList)
-
     }
 
     @Test
-    @DisplayName("email을 이용해 User 정보를 찾는다.")
-    fun findByEmail() {
+    @DisplayName("email을 이용해 User entity 를 찾는다.")
+    fun findUserByEmail() {
         val user = User(
             "seoin",
             "jnh@naver.com",
