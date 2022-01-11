@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.*
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import javax.transaction.Transactional
 
 
 @ExtendWith(MockitoExtension::class)
@@ -77,7 +76,6 @@ open class UserServiceTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("update user information 로직 검증")
     open fun updateUserInfo() {
         `when`(userRepository.findByEmail(userDto.email)).thenReturn(user)
