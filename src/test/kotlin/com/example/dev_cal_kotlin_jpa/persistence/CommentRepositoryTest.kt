@@ -4,6 +4,7 @@ import com.example.dev_cal_kotlin_jpa.domain.Board
 import com.example.dev_cal_kotlin_jpa.domain.Comment
 import com.example.dev_cal_kotlin_jpa.domain.User
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,77 +24,59 @@ class CommentRepositoryTest {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    val user = User(
-        "name",
-        "email@naver.com",
-        "pass!@23",
-        "010-1234-2123"
-    )
-    val board = Board(
-        user,
-        "title 1",
-        "content 1"
-    )
-    val comment = Comment(
-        "comment 1",
-        user,
-        board
-    )
+    lateinit var user: User
+    lateinit var board: Board
+    lateinit var comment: Comment
+    lateinit var commentList: List<Comment>
 
-    val commentList = mutableListOf(
-        Comment(
-            "comment 1",
-            user,
-            board
-        ),
-        Comment(
-            "comment 1",
-            user,
-            board
-        ),
-        Comment(
-            "comment 1",
-            user,
-            board
-        )
-    )
-
+    @BeforeEach
+    fun setup() {
+        user = User("name", "email@naver.com", "pass!@23", "010-1234-2123")
+        board = Board(user, "title 1", "content 1")
+        comment = Comment("comment 1", user, board)
+        commentList = listOf(comment, Comment("comment 2", user, board))
+    }
 
     @Test
     @DisplayName("comment entity 1개를 저장한다")
     fun saveTest() {
         val result = commentRepository.save(comment)
 
-        assertThat(result.comment).isEqualTo("comment 1")
-        assertThat(result.board).isEqualTo(board)
-        assertThat(result.user).isEqualTo(user)
+        assertThat(result).isNotNull
+        assertThat(result.id).isGreaterThan(0)
     }
 
     @Test
     @DisplayName("comment entities 를 여러 개 저장하고 모두 찾고 비교.")
     fun saveAllAndFindAllTest() {
-        val result = commentRepository.saveAll(commentList)
+        userRepository.save(user)
+        boardRepository.save(board)
+        commentRepository.saveAll(commentList)
+        val result = commentRepository.findAll()
 
-        assertThat(result).isEqualTo(commentList)
+        assertThat(result).isNotNull
+        assertThat(result.size).isEqualTo(2)
     }
 
     @Test
     @DisplayName("boardId를 이용해 관련 모든 comment entities 를 찾기")
     fun findAllCommentsByBoardId() {
         userRepository.save(user)
-        val boardEntity = boardRepository.save(board)
+        boardRepository.save(board)
         commentRepository.saveAll(commentList)
-        val foundEntities = commentRepository.findAllCommentsByBoardId(boardEntity.id)
+        val foundEntities = commentRepository.findAllCommentsByBoardId(board.id)
 
-        assertThat(foundEntities).isEqualTo(commentList)
+        assertThat(foundEntities).isNotNull
+        assertThat(foundEntities.size).isEqualTo(2)
     }
 
     @Test
     @DisplayName("comment entity update 로직 검증")
     fun update() {
-        val savedComment = commentRepository.save(comment)
-        savedComment.comment = "comment update 1"
-        val updatedComment = commentRepository.findById(comment.id).orElseThrow()
+        commentRepository.save(comment)
+        comment.comment = "comment update 1"
+
+        val updatedComment = commentRepository.findById(comment.id).get()
 
         assertThat(updatedComment.comment).isEqualTo("comment update 1")
     }
@@ -101,11 +84,12 @@ class CommentRepositoryTest {
     @Test
     @DisplayName("comment entity delete 로직 검증")
     fun delete() {
-        val savedEntity = commentRepository.save(comment)
-        commentRepository.delete(savedEntity)
-        val result = commentRepository.findAll()
+        commentRepository.save(comment)
 
-        assertThat(result).isEmpty()
+        commentRepository.deleteById(comment.id)
+        val result = commentRepository.findById(comment.id)
+
+        assertThat(result).isEmpty
     }
 
 }

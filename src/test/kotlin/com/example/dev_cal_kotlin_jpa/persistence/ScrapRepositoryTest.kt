@@ -4,6 +4,7 @@ import com.example.dev_cal_kotlin_jpa.domain.Event
 import com.example.dev_cal_kotlin_jpa.domain.Scrap
 import com.example.dev_cal_kotlin_jpa.domain.User
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,35 +25,35 @@ class ScrapRepositoryTest {
     @Autowired
     lateinit var eventRepository: EventRepository
 
-    val user = User(
-        "seoin",
-        "jnh123@naver.com",
-        "1234@tjdls",
-        "010-1234-1231"
-    )
 
-    val event = Event(
-        "title 1",
-        LocalDateTime.of(2022, 1, 7, 11, 19),
-        LocalDateTime.of(2022, 1, 8, 19, 19),
-        "host 1",
-        "60",
-        "1000",
-        "100",
-        "none",
-        user
-    )
+    lateinit var user: User
+    lateinit var event: Event
+    lateinit var scrap: Scrap
+    lateinit var scrapList: List<Scrap>
 
-    val scrap = Scrap(event, user)
-    val scrapList = mutableListOf(Scrap(event, user), Scrap(event, user))
+    @BeforeEach
+    fun setup() {
+        user = User("seoin", "jnh123@naver.com", "1234@tjdls", "010-1234-1231")
+        event = Event("title 1",
+            LocalDateTime.of(2022, 1, 7, 11, 19),
+            LocalDateTime.of(2022, 1, 8, 19, 19),
+            "host 1",
+            "60",
+            "1000",
+            "100",
+            "none",
+            user)
+        scrap = Scrap(event, user)
+        scrapList = listOf(Scrap(event, user), Scrap(event, user))
+    }
 
     @Test
     @DisplayName("scrap entity 1개를 저장한다")
     fun saveTest() {
         val result = scrapRepository.save(scrap)
 
-        assertThat(result.event).isEqualTo(event)
-        assertThat(result.user).isEqualTo(user)
+        assertThat(result).isNotNull
+        assertThat(result.id).isGreaterThan(0)
     }
 
     @Test
@@ -60,28 +61,29 @@ class ScrapRepositoryTest {
     fun saveAllAndFindAllTest() {
         val result = scrapRepository.saveAll(scrapList)
 
-        assertThat(result).isEqualTo(scrapList)
+        assertThat(result).isNotNull
+        assertThat(result.size).isEqualTo(2)
     }
 
     @Test
     @DisplayName("delete scrap 로직 검증")
     fun deleteScrap(){
-        val savedEntity = scrapRepository.save(scrap)
-        scrapRepository.deleteById(savedEntity.id)
-        val afterDeleted = scrapRepository.findAll()
+        scrapRepository.save(scrap)
+        scrapRepository.deleteById(scrap.id)
+        val afterDeleted = scrapRepository.findById(scrap.id)
 
-        assertThat(afterDeleted).isEmpty()
+        assertThat(afterDeleted).isEmpty
     }
 
     @Test
     @DisplayName("user가 Scrap 한 entities 모두 찾기")
     fun findAllUsersScrap() {
-        val savedUser = userRepository.save(user)
+        userRepository.save(user)
         eventRepository.save(event)
         scrapRepository.saveAll(scrapList)
-        val result = scrapRepository.findAllByUserId(savedUser.id)
+        val result = scrapRepository.findAllByUserId(user.id)
 
-        assertThat(result).isEqualTo(scrapList)
+        assertThat(result.size).isEqualTo(2)
     }
 
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 
 import org.modelmapper.ModelMapper
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.*
@@ -31,6 +32,7 @@ open class UserServiceTest {
 
     val user = User("인서","jnh57@naver.com", "123tjdls@", "010-2124-1281")
     val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+
 
     @Test
     @DisplayName("createUser 서비스 로직을 검증한다.")
@@ -59,16 +61,16 @@ open class UserServiceTest {
     @Test
     @DisplayName("findAll users 로직 검증")
     fun findAllUsers() {
-//        val userList = listOf(user, user, user)
-//        val userDtoList = listOf(userDto, userDto, userDto)
-//        `when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
-//        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
-//        `when`(userRepository.findAll()).thenReturn(userList)
-//        `when`(userRepository.findAll().map { modelMapper.map(it, UserDto::class.java) }).thenReturn(userDtoList)
-//        `when`(userService.findAll()).thenReturn(ResponseEntity<ResponseDto<UserDto>>(HttpStatus.OK))
-//        val response = userService.findAll()
-//
-//        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val userList = listOf(user, user, user)
+        val userDtoList = listOf(userDto, userDto, userDto)
+        `when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
+        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
+        `when`(userRepository.findAll()).thenReturn(userList)
+        `when`(userRepository.findAll().map { modelMapper.map(it, UserDto::class.java) }).thenReturn(userDtoList)
+        `when`(userService.findAll()).thenReturn(ResponseEntity<ResponseDto<UserDto>>(HttpStatus.OK))
+        val response = userService.findAll()
+
+        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
     }
 
 //    @Test
