@@ -67,7 +67,7 @@ class ScrapRepositoryTest {
 
     @Test
     @DisplayName("delete scrap 로직 검증")
-    fun deleteScrap(){
+    fun deleteScrap() {
         scrapRepository.save(scrap)
         scrapRepository.deleteById(scrap.id)
         val afterDeleted = scrapRepository.findById(scrap.id)

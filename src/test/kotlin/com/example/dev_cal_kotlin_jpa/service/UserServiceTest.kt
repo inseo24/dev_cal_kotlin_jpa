@@ -3,7 +3,6 @@ package com.example.dev_cal_kotlin_jpa.service
 import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
-import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import org.junit.jupiter.api.Test
 
 import org.modelmapper.ModelMapper
@@ -14,15 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.*
 import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import javax.transaction.Transactional
+
 
 @ExtendWith(MockitoExtension::class)
 open class UserServiceTest {
-
-    @InjectMocks
-    lateinit var userService: UserService
 
     @Mock
     lateinit var modelMapper: ModelMapper
@@ -30,8 +25,21 @@ open class UserServiceTest {
     @Mock
     lateinit var userRepository: UserRepository
 
-    val user = User("인서","jnh57@naver.com", "123tjdls@", "010-2124-1281")
-    val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+    @InjectMocks
+    lateinit var userService: UserService
+
+    lateinit var user: User
+    lateinit var userDto: UserDto
+    lateinit var userList: List<User>
+    lateinit var userDtoList: List<UserDto>
+
+    @BeforeEach
+    fun setup() {
+        user = User("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        userList = listOf(user, User("서인", "jnh123@naver.com", "123tjdls@", "010-2124-1281"))
+        userDtoList = listOf(userDto, UserDto("서인", "jnh123@naver.com", "123tjdls@", "010-2124-1281"))
+    }
 
 
     @Test
@@ -40,83 +48,59 @@ open class UserServiceTest {
         `when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
         `when`(userRepository.save(user)).thenReturn(user)
         `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
-        `when`(userService.create(userDto)).thenReturn(ResponseEntity<ResponseDto<UserDto>>(HttpStatus.OK))
+
         val response = userService.create(userDto)
 
-        assertThat(response.body).isNotNull
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).isNotNull
     }
 
     @Test
     @DisplayName("findOne user 로직 검증")
     fun findOneUser() {
         `when`(userRepository.findByEmail(user.email)).thenReturn(user)
-        `when`(userService.findOne("jnh57@naver.com")).thenReturn(ResponseEntity<ResponseDto<UserDto>>(HttpStatus.OK))
-        val response = userService.findOne("jnh57@naver.com")
+        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        val response = userService.findOne(user.email)
+
+        assertThat(response).isNotNull
     }
 
-    // list -> cast error
     @Test
     @DisplayName("findAll users 로직 검증")
     fun findAllUsers() {
-        val userList = listOf(user, user, user)
-        val userDtoList = listOf(userDto, userDto, userDto)
-        `when`(modelMapper.map(userDto, User::class.java)).thenReturn(user)
         `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
         `when`(userRepository.findAll()).thenReturn(userList)
-        `when`(userRepository.findAll().map { modelMapper.map(it, UserDto::class.java) }).thenReturn(userDtoList)
-        `when`(userService.findAll()).thenReturn(ResponseEntity<ResponseDto<UserDto>>(HttpStatus.OK))
+
         val response = userService.findAll()
 
-        assertThat(response.statusCode).isEqualTo(HttpStatus.OK)
+        assertThat(response).isNotNull
     }
 
-//    @Test
-//    @Transactional
-//    @DisplayName("update user information 로직 검증")
-//    open fun updateUserInfo() {
-//        val user = User(
-//            name = "서인1",
-//            email = "jnh1@naver.com",
-//            password = "1234@tjdls",
-//            mobileNumber = "010-7685-1281"
-//        )
-//        val userDto = UserDto(
-//            name = "서인1",
-//            email = "jnh1@naver.com",
-//            password = "tjdls@!1234",
-//            mobileNumber = "010-5678-1234"
-//        )
-//
-//        `when`(userRepository.findByEmail((userDto.email))).thenReturn(user)
-//
-//        user.mobileNumber = userDto.mobileNumber
-//        user.password = userDto.password
-//
-//        var updateUserInfo = user.email.let { userRepository.findByEmail(it) }
-//        assertThat(updateUserInfo?.mobileNumber).isEqualTo(userDto.mobileNumber)
-//        assertThat(updateUserInfo?.password).isEqualTo(userDto.password)
-//
-//    }
-//
-//    @Test
-//    @DisplayName("delete user 정보 검증")
-//    fun deleteUserInfo() {
-//        val user = User(
-//            name = "서인1",
-//            email = "jnh1@naver.com",
-//            password = "1234@tjdls",
-//            mobileNumber = "010-7685-1281"
-//        )
-//        userRepository.save(user)
-//        val savedUser = userRepository.findByEmail(user.email)
-//        savedUser?.let { userRepository.deleteById(it.id) }
-//
-//        val isUserDeleted = userRepository.findByEmail(user.email)
-//        assertThat(isUserDeleted).isEqualTo(null)
-//    }
+    @Test
+    @Transactional
+    @DisplayName("update user information 로직 검증")
+    open fun updateUserInfo() {
+        `when`(userRepository.findByEmail(userDto.email)).thenReturn(user)
+        userDto.mobileNumber = "010-9999-9999"
+        userDto.password = "password123@"
+        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
+
+        val updateUserInfo = userService.update(userDto)
+        assertThat(updateUserInfo).isNotNull
+        println(updateUserInfo.body?.data)
+    }
+
+    @Test
+    @DisplayName("delete user 정보 검증")
+    fun deleteUserInfo() {
+        `when`(userRepository.findByEmail(userDto.email)).thenReturn(user)
+        val userId = user.id
+        doNothing().`when`(userRepository).deleteById(user.id)
+
+        userService.delete(user.email)
+
+        verify(userRepository, times(1)).deleteById(userId)
+    }
 
 
 }
