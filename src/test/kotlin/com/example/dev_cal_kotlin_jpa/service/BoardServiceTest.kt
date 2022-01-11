@@ -77,7 +77,7 @@ open class BoardServiceTest {
     @Test
     @DisplayName("findAll board 로직 검증")
     fun findAllUsers() {
-        `when`(modelMapper.map(board, boardDto::class.java)).thenReturn(boardDto)
+        `when`(modelMapper.map(board, BoardDto::class.java)).thenReturn(boardDto)
         `when`(boardRepository.findAll()).thenReturn(boardList)
 
         val response = boardService.findAll()

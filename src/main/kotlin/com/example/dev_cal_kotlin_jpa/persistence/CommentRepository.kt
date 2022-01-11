@@ -10,7 +10,7 @@ import java.util.*
 interface CommentRepository : JpaRepository<Comment, Long> {
 
     @EntityGraph(attributePaths = ["user", "board"], type = EntityGraph.EntityGraphType.FETCH)
-    fun findAllCommentsByBoardId(boardId: Long): MutableList<Comment>
+    fun findAllCommentsByBoardId(boardId: Long): List<Comment>
 
     @EntityGraph(attributePaths = ["user", "board"], type = EntityGraph.EntityGraphType.FETCH)
     override fun findAll(): List<Comment>
