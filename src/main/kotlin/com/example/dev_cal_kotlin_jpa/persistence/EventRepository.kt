@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EventRepository : JpaRepository<Event, Long> {
 
-    fun findAllEventsByTitleContains(title: String): MutableList<Event>
+    fun findAllEventsByTitleContains(title: String): List<Event>
 
 }
