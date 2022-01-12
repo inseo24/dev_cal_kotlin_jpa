@@ -2,6 +2,7 @@ package com.example.dev_cal_kotlin_jpa.service
 
 import com.example.dev_cal_kotlin_jpa.domain.Comment
 import com.example.dev_cal_kotlin_jpa.dto.CommentDto
+import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.persistence.BoardRepository
 import com.example.dev_cal_kotlin_jpa.persistence.CommentRepository
 import com.example.dev_cal_kotlin_jpa.persistence.UserRepository
@@ -57,10 +58,14 @@ class CommentService(
         val original = commentRepository.findById(id).orElseThrow()
         if (original.user == user) {
             original.comment = commentDto.comment
+            val response = ResponseDto<CommentDto>().apply {
+                this.data = modelMapper.map(user, CommentDto::class.java)
+                this.status = "200 OK"
+            }
+            return ResponseEntity.ok().body(response)
         } else {
             throw RuntimeException()
         }
-        return findAll()
     }
 
     @Transactional
