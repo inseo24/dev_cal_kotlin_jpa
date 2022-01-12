@@ -20,9 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.hamcrest.CoreMatchers.*
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.mockito.Mockito.anyString
 import kotlin.RuntimeException
-
 
 @WebMvcTest(UserController::class)
 internal class UserControllerTest {
@@ -44,7 +43,7 @@ internal class UserControllerTest {
         val request = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
 
         `when`(userService.create(request)).thenAnswer { invocation ->
-            ResponseEntity<ResponseDto<UserDto>>(ResponseDto<UserDto>("200 OK", invocation.arguments[0]), HttpStatus.OK)
+            ResponseEntity<ResponseDto<UserDto>>(ResponseDto("200 OK", invocation.arguments[0]), HttpStatus.OK)
         }
 
         val response: ResultActions = mockMvc.perform(post("/user")
@@ -62,7 +61,7 @@ internal class UserControllerTest {
 
     @Test
     @DisplayName("user 정보 조회 - 성공")
-    fun findOne() {
+    fun findOneReturn200() {
         val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
 
         `when`(userService.findOne(user.email)).thenReturn(
@@ -134,7 +133,7 @@ internal class UserControllerTest {
         val email = "jnh3@naver.com"
         `when`(userService.delete(email)).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        val response: ResultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{email}", email))
+        val response: ResultActions = mockMvc.perform(delete("/user/delete/{email}", email))
 
         response.andExpect(status().isOk)
             .andDo(print())
