@@ -1,11 +1,9 @@
 package com.example.dev_cal_kotlin_jpa.controller
 
-import com.example.dev_cal_kotlin_jpa.domain.User
 import com.example.dev_cal_kotlin_jpa.dto.UserDto
 import com.example.dev_cal_kotlin_jpa.responseDto.ResponseDto
 import com.example.dev_cal_kotlin_jpa.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.DisplayName
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.hamcrest.CoreMatchers.*
-import org.mockito.Mockito.doNothing
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import kotlin.RuntimeException
 
@@ -99,9 +96,10 @@ internal class UserControllerTest {
     fun findAll() {
         val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
         val userList: List<UserDto> = listOf(user, UserDto("서인", "jnh123@naver.com", "teas12@3", "010-9999-9999"))
-        `when`(userService.findAll()).thenReturn(ResponseEntity<ResponseDto<UserDto>>(ResponseDto("200 OK", userList), HttpStatus.OK))
+        `when`(userService.findAll()).thenReturn(ResponseEntity<ResponseDto<UserDto>>(ResponseDto("200 OK", userList),
+            HttpStatus.OK))
 
-        val response : ResultActions = mockMvc.perform(get("/user"))
+        val response: ResultActions = mockMvc.perform(get("/user"))
 
         response.andExpect(status().isOk)
             .andDo(print())
@@ -118,7 +116,7 @@ internal class UserControllerTest {
             ResponseEntity<ResponseDto<UserDto>>(ResponseDto("200 OK", updatedUser), HttpStatus.OK)
         }
 
-        val response : ResultActions = mockMvc.perform(put("/user/update")
+        val response: ResultActions = mockMvc.perform(put("/user/update")
             .content(objectMapper.writeValueAsString(originalUser))
             .contentType(MediaType.APPLICATION_JSON))
 
@@ -136,7 +134,7 @@ internal class UserControllerTest {
         val email = "jnh3@naver.com"
         `when`(userService.delete(email)).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        val response : ResultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{email}", email))
+        val response: ResultActions = mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/{email}", email))
 
         response.andExpect(status().isOk)
             .andDo(print())
