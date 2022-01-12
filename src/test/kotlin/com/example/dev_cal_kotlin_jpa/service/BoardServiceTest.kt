@@ -18,7 +18,6 @@ import org.mockito.Mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
 import java.util.*
 
-
 @ExtendWith(MockitoExtension::class)
 open class BoardServiceTest {
 
