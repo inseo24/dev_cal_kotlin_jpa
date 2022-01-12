@@ -2,11 +2,14 @@ package com.example.dev_cal_kotlin_jpa.controller
 
 import com.example.dev_cal_kotlin_jpa.dto.BoardDto
 import com.example.dev_cal_kotlin_jpa.service.BoardService
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -18,9 +21,7 @@ import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
-@ExtendWith(SpringExtension::class)
 @WebMvcTest(BoardController::class)
-@ActiveProfiles("test")
 internal class BoardControllerTest {
 
     @Autowired
@@ -29,6 +30,9 @@ internal class BoardControllerTest {
     @MockBean
     lateinit var boardService: BoardService
 
+    @MockBean
+    lateinit var objectMapper: ObjectMapper
+
     @Test
     @DisplayName("board create 로직을 검증")
     fun create() {
@@ -36,6 +40,7 @@ internal class BoardControllerTest {
             title = "title 1",
             content = "content 1"
         )
+
 
         mockMvc.post("/board/jnh3@naver.com") {
             contentType = MediaType.APPLICATION_JSON
