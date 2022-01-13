@@ -55,11 +55,11 @@ class CommentService(
     @Transactional
     fun update(commentDto: CommentDto, email: String, id: Long): ResponseEntity<ResponseDto<CommentDto>> {
         val user = userRepository.findByEmail(email) ?: throw RuntimeException()
-        val original = commentRepository.findById(id).orElseThrow()
-        if (original.user == user) {
-            original.comment = commentDto.comment
+        val comment = commentRepository.findById(id).orElseThrow()
+        if (comment.user == user) {
+            comment.comment = commentDto.comment
             val response = ResponseDto<CommentDto>().apply {
-                this.data = modelMapper.map(user, CommentDto::class.java)
+                this.data = modelMapper.map(comment, CommentDto::class.java)
                 this.status = "200 OK"
             }
             return ResponseEntity.ok().body(response)

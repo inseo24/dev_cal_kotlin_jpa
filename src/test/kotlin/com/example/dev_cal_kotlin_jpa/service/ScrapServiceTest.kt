@@ -47,7 +47,6 @@ open class ScrapServiceTest {
     lateinit var eventDto: EventDto
     lateinit var scrap: Scrap
     lateinit var scrapDto: ScrapDto
-    lateinit var scrapList: List<Scrap>
 
     @BeforeEach
     fun setup() {
@@ -74,7 +73,6 @@ open class ScrapServiceTest {
         )
         scrap = Scrap(event, user)
         scrapDto = ScrapDto(eventDto,userDto)
-        scrapList = listOf(Scrap(event, user), Scrap(event, user))
     }
 
     @Test
@@ -106,6 +104,7 @@ open class ScrapServiceTest {
     @Test
     @DisplayName("findAll scrap 로직을 검증한다")
     fun findAllScrapTest() {
+        val scrapList = listOf(Scrap(event, user), Scrap(event, user))
         `when`(modelMapper.map(scrap, ScrapDto::class.java)).thenReturn(scrapDto)
         `when`(scrapRepository.findAll()).thenReturn(scrapList)
 
@@ -117,6 +116,7 @@ open class ScrapServiceTest {
     @Test
     @DisplayName("findAll user's scrap 로직을 검증한다")
     fun findAllUsersScrapTest() {
+        val scrapList = listOf(Scrap(event, user), Scrap(event, user))
         `when`(userRepository.findByEmail(user.email)).thenReturn(user)
         `when`(modelMapper.map(scrap, ScrapDto::class.java)).thenReturn(scrapDto)
         `when`(scrapRepository.findAllByUserId(user.id)).thenReturn(scrapList)

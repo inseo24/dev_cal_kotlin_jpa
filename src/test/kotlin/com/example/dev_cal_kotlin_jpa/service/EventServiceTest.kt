@@ -31,7 +31,6 @@ open class EventServiceTest {
     lateinit var user: User
     lateinit var event: Event
     lateinit var eventDto: EventDto
-    lateinit var eventList: List<Event>
 
     @BeforeEach
     fun setup() {
@@ -55,16 +54,6 @@ open class EventServiceTest {
             "100",
             "none",
         )
-        eventList = listOf(event,
-            Event("title 1",
-                LocalDateTime.of(2022, 1, 7, 11, 19),
-                LocalDateTime.of(2022, 1, 8, 19, 19),
-                "host 1",
-                "60",
-                "1000",
-                "100",
-                "none",
-                user))
     }
 
     @Test
@@ -82,6 +71,16 @@ open class EventServiceTest {
     @Test
     @DisplayName("findAll 검증")
     fun findAllEvents() {
+        val eventList = listOf(event,
+            Event("title 1",
+                LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "host 1",
+                "60",
+                "1000",
+                "100",
+                "none",
+                user))
         `when`(modelMapper.map(event, EventDto::class.java)).thenReturn(eventDto)
         `when`(eventRepository.findAll()).thenReturn(eventList)
 
@@ -93,6 +92,16 @@ open class EventServiceTest {
     @Test
     @DisplayName("특정 title 을 포함하는 event entities 를 모두 찾기")
     fun findAllEventsContainsTitle() {
+        val eventList = listOf(event,
+            Event("title 1",
+                LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "host 1",
+                "60",
+                "1000",
+                "100",
+                "none",
+                user))
         `when`(modelMapper.map(event, EventDto::class.java)).thenReturn(eventDto)
         `when`(eventRepository.findAllEventsByTitleContains(event.title)).thenReturn(eventList)
         eventRepository.saveAll(eventList)

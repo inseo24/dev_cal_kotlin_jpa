@@ -99,14 +99,11 @@ open class CommentServiceTest {
     @Test
     @DisplayName("update comments 로직 검증")
     fun update(){
+        val updated = CommentDto(1L,userDto, "comment updated", boardDto)
+
         `when`(userRepository.findByEmail(user.email)).thenReturn(user)
         `when`(commentRepository.findById(comment.id)).thenReturn(Optional.of(comment))
-        `when`(modelMapper.map(comment, CommentDto::class.java)).thenReturn(commentDto)
-        `when`(commentRepository.findAll()).thenReturn(commentList)
-
-        if (user == comment.user){
-            commentDto.comment = "update comment 2"
-        }
+        `when`(modelMapper.map(comment, CommentDto::class.java)).thenReturn(updated)
 
         val response = commentService.update(commentDto, user.email, comment.id)
 

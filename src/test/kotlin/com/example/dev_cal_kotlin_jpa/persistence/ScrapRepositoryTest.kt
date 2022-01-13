@@ -25,11 +25,9 @@ class ScrapRepositoryTest {
     @Autowired
     lateinit var eventRepository: EventRepository
 
-
     lateinit var user: User
     lateinit var event: Event
     lateinit var scrap: Scrap
-    lateinit var scrapList: List<Scrap>
 
     @BeforeEach
     fun setup() {
@@ -44,7 +42,6 @@ class ScrapRepositoryTest {
             "none",
             user)
         scrap = Scrap(event, user)
-        scrapList = listOf(Scrap(event, user), Scrap(event, user))
     }
 
     @Test
@@ -59,6 +56,7 @@ class ScrapRepositoryTest {
     @Test
     @DisplayName("여러 scrap entities 를 저장하고 모두 찾기 검증")
     fun saveAllAndFindAllTest() {
+        val scrapList = listOf(Scrap(event, user), Scrap(event, user))
         val result = scrapRepository.saveAll(scrapList)
 
         assertThat(result).isNotNull
@@ -78,6 +76,7 @@ class ScrapRepositoryTest {
     @Test
     @DisplayName("user가 Scrap 한 entities 모두 찾기")
     fun findAllUsersScrap() {
+        val scrapList = listOf(Scrap(event, user), Scrap(event, user))
         userRepository.save(user)
         eventRepository.save(event)
         scrapRepository.saveAll(scrapList)

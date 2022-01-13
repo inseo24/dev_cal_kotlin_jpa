@@ -27,14 +27,12 @@ class CommentRepositoryTest {
     lateinit var user: User
     lateinit var board: Board
     lateinit var comment: Comment
-    lateinit var commentList: List<Comment>
 
     @BeforeEach
     fun setup() {
         user = User("name", "email@naver.com", "pass!@23", "010-1234-2123")
         board = Board(user, "title 1", "content 1")
         comment = Comment("comment 1", user, board)
-        commentList = listOf(comment, Comment("comment 2", user, board))
     }
 
     @Test
@@ -49,6 +47,7 @@ class CommentRepositoryTest {
     @Test
     @DisplayName("comment entities 를 여러 개 저장하고 모두 찾고 비교.")
     fun saveAllAndFindAllTest() {
+        val commentList = listOf(comment, Comment("comment 2", user, board))
         userRepository.save(user)
         boardRepository.save(board)
         commentRepository.saveAll(commentList)
@@ -61,6 +60,7 @@ class CommentRepositoryTest {
     @Test
     @DisplayName("boardId를 이용해 관련 모든 comment entities 를 찾기")
     fun findAllCommentsByBoardId() {
+        val commentList = listOf(comment, Comment("comment 2", user, board))
         userRepository.save(user)
         boardRepository.save(board)
         commentRepository.saveAll(commentList)

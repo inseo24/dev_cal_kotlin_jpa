@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.hamcrest.CoreMatchers.*
+import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -35,14 +36,30 @@ internal class EventControllerTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    lateinit var eventDto: EventDto
+
+    @BeforeEach
+    fun setup() {
+        eventDto = EventDto(
+            1L, "title",
+            LocalDateTime.of(2022, 1, 7, 11, 19),
+            LocalDateTime.of(2022, 1, 8, 19, 19),
+            "host 1",
+            "60",
+            "1000",
+            "100",
+            "none",
+        )
+    }
+
+
     @Test
     @DisplayName("event findAll 로직 검증")
     fun findAll() {
-        val startDate = LocalDateTime.of(2022, 1, 7, 11, 19)
-        val endDate = LocalDateTime.of(2022, 1, 8, 19, 19)
-        val event = EventDto(1L, "title 1", startDate, endDate, "uu", "60min", "1000", "100", "none")
         val eventList: List<EventDto> =
-            listOf(event, EventDto(2L, "title 2", startDate, endDate, "uu", "60min", "1000", "100", "none"))
+            listOf(eventDto, EventDto(2L, "title 2", LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "uu", "60min", "1000", "100", "none"))
 
         `when`(eventService.findAll()).thenReturn(ResponseEntity<ResponseDto<EventDto>>(ResponseDto("200 OK",
             eventList), HttpStatus.OK))
@@ -57,35 +74,31 @@ internal class EventControllerTest {
     @Test
     @DisplayName("event create 로직 검증")
     fun create() {
-        val startDate = LocalDateTime.of(2022, 1, 7, 11, 19)
-        val endDate = LocalDateTime.of(2022, 1, 8, 19, 19)
-        val event = EventDto(1L, "title 1", startDate, endDate, "uu", "60min", "1000", "100", "none")
-        `when`(eventService.create(event)).thenAnswer { invocation ->
+        `when`(eventService.create(eventDto)).thenAnswer { invocation ->
             ResponseEntity<ResponseDto<EventDto>>(ResponseDto("200 OK", invocation.arguments[0]), HttpStatus.OK)
         }
 
         val response: ResultActions = mockMvc.perform(post("/event")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(event)))
+            .content(objectMapper.writeValueAsString(eventDto)))
 
         response.andDo(print())
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$['data']['timeRequired']", `is`(event.timeRequired)))
-            .andExpect(jsonPath("$['data']['title']", `is`(event.title)))
-            .andExpect(jsonPath("$['data']['cost']", `is`(event.cost)))
-            .andExpect(jsonPath("$['data']['limitPersonnel']", `is`(event.limitPersonnel)))
+            .andExpect(jsonPath("$['data']['timeRequired']", `is`(eventDto.timeRequired)))
+            .andExpect(jsonPath("$['data']['title']", `is`(eventDto.title)))
+            .andExpect(jsonPath("$['data']['cost']", `is`(eventDto.cost)))
+            .andExpect(jsonPath("$['data']['limitPersonnel']", `is`(eventDto.limitPersonnel)))
     }
 
     @Test
     @DisplayName("event findAll events contains title 로직 검증")
     fun findAllEventsContainsTitle() {
-        val startDate = LocalDateTime.of(2022, 1, 7, 11, 19)
-        val endDate = LocalDateTime.of(2022, 1, 8, 19, 19)
-        val event = EventDto(1L, "title", startDate, endDate, "uu", "60min", "1000", "100", "none")
         val eventList: List<EventDto> =
-            listOf(event, EventDto(2L, "title", startDate, endDate, "uu", "60min", "1000", "100", "none"))
+            listOf(eventDto, EventDto(2L, "title", LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "uu", "60min", "1000", "100", "none"))
 
-        `when`(eventService.findAllEventsContainsTitle(event.title)).thenReturn(ResponseEntity<ResponseDto<EventDto>>(
+        `when`(eventService.findAllEventsContainsTitle(eventDto.title)).thenReturn(ResponseEntity<ResponseDto<EventDto>>(
             ResponseDto("200 OK",
                 eventList),
             HttpStatus.OK))

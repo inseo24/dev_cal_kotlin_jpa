@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*
 import org.hamcrest.CoreMatchers.*
+import org.junit.jupiter.api.BeforeEach
 import org.mockito.Mockito.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -34,32 +35,37 @@ internal class BoardControllerTest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
+    lateinit var userDto: UserDto
+    lateinit var boardDto: BoardDto
+
+    @BeforeEach
+    fun setup() {
+        userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        boardDto = BoardDto(1L, "title 1", "content 1", userDto)
+    }
+
     @Test
     @DisplayName("board create 로직을 검증")
     fun create() {
-        val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
-        val request = BoardDto(1L, "title 1", "content 1", user)
-        `when`(boardService.create(request, user.email)).thenAnswer { invocation ->
+        `when`(boardService.create(boardDto, userDto.email)).thenAnswer { invocation ->
             ResponseEntity<ResponseDto<BoardDto>>(ResponseDto("200 OK", invocation.arguments[0]), HttpStatus.OK)
         }
 
-        val response: ResultActions = mockMvc.perform(post("/board/{email}", user.email)
+        val response: ResultActions = mockMvc.perform(post("/board/{email}", userDto.email)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
+            .content(objectMapper.writeValueAsString(boardDto)))
 
         response.andDo(print())
             .andExpect(status().isOk)
-            .andExpect(jsonPath("$['data']['title']", `is`(request.title)))
-            .andExpect(jsonPath("$['data']['content']", `is`(request.content)))
+            .andExpect(jsonPath("$['data']['title']", `is`(boardDto.title)))
+            .andExpect(jsonPath("$['data']['content']", `is`(boardDto.content)))
 
     }
 
     @Test
     @DisplayName("board findAll 로직을 검증")
     fun findAll() {
-        val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
-        val board = BoardDto(1L, "title 1", "content 1", user)
-        val boardList: List<BoardDto> = listOf(board, BoardDto(2L, "title 1", "content 1", user))
+        val boardList: List<BoardDto> = listOf(boardDto, BoardDto(2L, "title 1", "content 1", userDto))
         `when`(boardService.findAll()).thenReturn(ResponseEntity<ResponseDto<BoardDto>>(ResponseDto("200 OK",
             boardList), HttpStatus.OK))
 
@@ -73,27 +79,23 @@ internal class BoardControllerTest {
     @Test
     @DisplayName("board findOne 조회 - 성공")
     fun findOneReturn200() {
-        val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
-        val board = BoardDto(1L, "title 1", "content 1", user)
-        `when`(boardService.findOne(anyLong())).thenReturn(ResponseEntity<ResponseDto<BoardDto>>(ResponseDto("200 OK",
-            board), HttpStatus.OK))
+        `when`(boardService.findOne(boardDto.id!!)).thenReturn(ResponseEntity<ResponseDto<BoardDto>>(ResponseDto("200 OK",
+            boardDto), HttpStatus.OK))
 
-        val response: ResultActions = mockMvc.perform(get("/board/{id}", board.id))
+        val response: ResultActions = mockMvc.perform(get("/board/{id}", boardDto.id))
 
         response.andExpect(status().isOk)
             .andDo(print())
-            .andExpect(jsonPath("$['data']['title']", `is`(board.title)))
-            .andExpect(jsonPath("$['data']['content']", `is`(board.content)))
+            .andExpect(jsonPath("$['data']['title']", `is`(boardDto.title)))
+            .andExpect(jsonPath("$['data']['content']", `is`(boardDto.content)))
     }
 
     @Test
     @DisplayName("board findOne 조회 - 실패")
     fun findOneReturn404() {
-        val user = UserDto("인서", "jnh100@naver.com", "123tjdls@", "010-2124-1281")
-        val board = BoardDto(1L, "title 1", "content 1", user)
         `when`(boardService.findOne(anyLong())).thenThrow(RuntimeException()) // board id 못찾을 때
 
-        val response: ResultActions = mockMvc.perform(get("/board/{id}", board.id))
+        val response: ResultActions = mockMvc.perform(get("/board/{id}", boardDto.id))
 
         response.andExpect(status().isBadRequest)
             .andDo(print())
@@ -102,10 +104,9 @@ internal class BoardControllerTest {
     @Test
     @DisplayName("board delete 로직을 검증")
     fun delete() {
-        val boardId = 1L
-        `when`(boardService.delete(boardId)).thenReturn(ResponseEntity(HttpStatus.OK))
+        `when`(boardService.delete(boardDto.id!!)).thenReturn(ResponseEntity(HttpStatus.OK))
 
-        val response: ResultActions = mockMvc.perform(delete("/board/{id}", boardId))
+        val response: ResultActions = mockMvc.perform(delete("/board/{id}", boardDto.id))
 
         response.andExpect(status().isOk)
             .andDo(print())

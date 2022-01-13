@@ -29,15 +29,11 @@ open class UserServiceTest {
 
     lateinit var user: User
     lateinit var userDto: UserDto
-    lateinit var userList: List<User>
-    lateinit var userDtoList: List<UserDto>
 
     @BeforeEach
     fun setup() {
         user = User("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
         userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
-        userList = listOf(user, User("서인", "jnh123@naver.com", "123tjdls@", "010-2124-1281"))
-        userDtoList = listOf(userDto, UserDto("서인", "jnh123@naver.com", "123tjdls@", "010-2124-1281"))
     }
 
 
@@ -67,6 +63,7 @@ open class UserServiceTest {
     @Test
     @DisplayName("findAll users 로직 검증")
     fun findAllUsers() {
+        val userList = listOf(user, User("서인", "jnh123@naver.com", "123tjdls@", "010-2124-1281"))
         `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
         `when`(userRepository.findAll()).thenReturn(userList)
 

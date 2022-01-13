@@ -23,7 +23,6 @@ class EventRepositoryTest {
 
     lateinit var user: User
     lateinit var event: Event
-    lateinit var eventList: List<Event>
 
     @BeforeEach
     fun setup() {
@@ -37,18 +36,7 @@ class EventRepositoryTest {
             "100",
             "none",
             user)
-        eventList = listOf(event,
-            Event("title 1",
-                LocalDateTime.of(2022, 1, 7, 11, 19),
-                LocalDateTime.of(2022, 1, 8, 19, 19),
-                "host 1",
-                "60",
-                "1000",
-                "100",
-                "none",
-                user))
     }
-
 
     @Test
     @DisplayName("event entity 1개를 저장한다")
@@ -62,6 +50,16 @@ class EventRepositoryTest {
     @Test
     @DisplayName("event entities 저장 후 findAll 검증")
     fun saveAllAndFindAll() {
+        val eventList = listOf(event,
+            Event("title 1",
+                LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "host 1",
+                "60",
+                "1000",
+                "100",
+                "none",
+                user))
         userRepository.save(user)
         eventRepository.saveAll(eventList)
         val result = eventRepository.findAll()
@@ -73,6 +71,16 @@ class EventRepositoryTest {
     @Test
     @DisplayName("특정 title 을 포함하는 event entities 를 모두 찾기")
     fun findAllEventsContainsTitle() {
+        val eventList = listOf(event,
+            Event("title 1",
+                LocalDateTime.of(2022, 1, 7, 11, 19),
+                LocalDateTime.of(2022, 1, 8, 19, 19),
+                "host 1",
+                "60",
+                "1000",
+                "100",
+                "none",
+                user))
         userRepository.save(user)
         eventRepository.saveAll(eventList)
         val result = eventRepository.findAllEventsByTitleContains("title")

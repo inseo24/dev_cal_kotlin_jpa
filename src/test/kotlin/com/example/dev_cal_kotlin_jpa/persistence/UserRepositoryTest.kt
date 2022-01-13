@@ -17,12 +17,10 @@ class UserRepositoryTest {
     lateinit var userRepository: UserRepository
 
     lateinit var user: User
-    lateinit var userList: List<User>
 
     @BeforeEach
     fun setup() {
         user = User("seoin", "jnh123@naver.com", "1234@tjdls", "010-1234-1231")
-        userList = listOf(user, User("inseo", "jnh321@naver.com", "2321@tj", "010-1234-2311"))
     }
 
     @Test
@@ -37,6 +35,7 @@ class UserRepositoryTest {
     @Test
     @DisplayName("user entities 여러 개 저장한다.")
     fun saveAllAndFindAllTest() {
+        val userList = listOf(user, User("inseo", "jnh321@naver.com", "2321@tj", "010-1234-2311"))
         userRepository.saveAll(userList)
         val result = userRepository.findAll()
 

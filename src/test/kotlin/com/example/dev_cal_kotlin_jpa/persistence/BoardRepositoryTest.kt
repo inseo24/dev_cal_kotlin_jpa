@@ -19,13 +19,11 @@ class BoardRepositoryTest {
 
     lateinit var user: User
     lateinit var board: Board
-    lateinit var boardList: List<Board>
 
     @BeforeEach
     fun setup() {
         user = User("name", "email@naver.com", "pass!@23", "010-1234-2123")
         board = Board(user, "title 1", "content 1")
-        boardList = listOf(board, Board(user, "title 2", "content 2"))
     }
 
     @Test
@@ -49,6 +47,7 @@ class BoardRepositoryTest {
     @Test
     @DisplayName("모든 board entities 찾기 검증")
     fun saveAllAndFindAllTest() {
+        val boardList = listOf(board, Board(user, "title 2", "content 2"))
         val result = boardRepository.saveAll(boardList)
 
         assertThat(result).isNotNull

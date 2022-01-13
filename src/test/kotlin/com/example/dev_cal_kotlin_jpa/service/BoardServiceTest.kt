@@ -37,7 +37,6 @@ open class BoardServiceTest {
     lateinit var userDto: UserDto
     lateinit var board : Board
     lateinit var boardDto: BoardDto
-    lateinit var boardList : List<Board>
 
     @BeforeEach
     fun setup() {
@@ -45,7 +44,6 @@ open class BoardServiceTest {
         userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
         board = Board(user, "title 1", "content 1")
         boardDto = BoardDto(1L, "title 1", "content 1", userDto)
-        boardList = listOf(board,  Board(user, "title 2", "content 2"))
     }
 
 
@@ -76,6 +74,7 @@ open class BoardServiceTest {
     @Test
     @DisplayName("findAll board 로직 검증")
     fun findAllUsers() {
+        val boardList = listOf(board, Board(user, "title 2", "content 2"))
         `when`(modelMapper.map(board, BoardDto::class.java)).thenReturn(boardDto)
         `when`(boardRepository.findAll()).thenReturn(boardList)
 
