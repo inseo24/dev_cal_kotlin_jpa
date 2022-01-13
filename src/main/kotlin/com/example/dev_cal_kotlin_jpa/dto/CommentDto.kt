@@ -10,7 +10,7 @@ data class CommentDto(
     val user: UserDto? = null,
 
     @field:NotBlank
-    var comment: String = "",
+    val comment: String = "",
 
     @field:NotBlank
     val board: BoardDto? = null,

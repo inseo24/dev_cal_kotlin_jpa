@@ -1,6 +1,5 @@
 package com.example.dev_cal_kotlin_jpa.controller
 
-import com.example.dev_cal_kotlin_jpa.domain.Scrap
 import com.example.dev_cal_kotlin_jpa.dto.EventDto
 import com.example.dev_cal_kotlin_jpa.dto.ScrapDto
 import com.example.dev_cal_kotlin_jpa.dto.UserDto

@@ -10,10 +10,10 @@ class Scrap(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event")
     @JsonIgnore
-    var event: Event,
+    val event: Event,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
-    var user: User,
+    val user: User,
 
     ) : BaseEntity()

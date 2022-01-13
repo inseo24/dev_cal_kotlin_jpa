@@ -34,8 +34,7 @@ class EventRepositoryTest {
             "60",
             "1000",
             "100",
-            "none",
-            user)
+            "none")
     }
 
     @Test
@@ -58,8 +57,7 @@ class EventRepositoryTest {
                 "60",
                 "1000",
                 "100",
-                "none",
-                user))
+                "none"))
         userRepository.save(user)
         eventRepository.saveAll(eventList)
         val result = eventRepository.findAll()
@@ -79,8 +77,7 @@ class EventRepositoryTest {
                 "60",
                 "1000",
                 "100",
-                "none",
-                user))
+                "none"))
         userRepository.save(user)
         eventRepository.saveAll(eventList)
         val result = eventRepository.findAllEventsByTitleContains("title")

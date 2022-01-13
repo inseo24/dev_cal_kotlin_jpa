@@ -64,7 +64,7 @@ internal class ScrapControllerITest {
             "60",
             "1000",
             "100",
-            "none", user)
+            "none")
 
         userRepository.save(user)
         scrap = Scrap(event, user)

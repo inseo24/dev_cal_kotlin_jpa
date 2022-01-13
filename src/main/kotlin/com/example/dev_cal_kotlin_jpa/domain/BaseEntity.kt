@@ -14,11 +14,11 @@ class BaseEntity {
 
     @CreationTimestamp
     @Column(name = "created_time", updatable = false)
-    var createdTime: LocalDateTime? = null
+    val createdTime: LocalDateTime? = null
 
     @UpdateTimestamp
     @Column(name = "updated_time")
-    var updatedTime: LocalDateTime? = null
+    val updatedTime: LocalDateTime? = null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

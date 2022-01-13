@@ -8,29 +8,25 @@ import javax.persistence.*
 @Table(name = "event")
 class Event(
 
-    var title: String,
+    val title: String,
 
     @JsonProperty("start_date")
-    var startDate: LocalDateTime,
+    val startDate: LocalDateTime,
 
     @JsonProperty("end_date")
-    var endDate: LocalDateTime,
+    val endDate: LocalDateTime,
 
-    var host: String,
+    val host: String,
 
     @JsonProperty("time_required")
-    var timeRequired: String,
+    val timeRequired: String,
 
-    var cost: String,
+    val cost: String,
 
     @JsonProperty("limit_personnel")
-    var limitPersonnel: String,
+    val limitPersonnel: String,
 
     @JsonProperty("related_link")
-    var relatedLink: String,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
-    var user: User,
+    val relatedLink: String,
 
     ) : BaseEntity()

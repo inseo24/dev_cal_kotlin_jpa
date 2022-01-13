@@ -75,10 +75,9 @@ open class UserServiceTest {
     @Test
     @DisplayName("update user information 로직 검증")
     open fun updateUserInfo() {
+        val updated = UserDto("인서", "jnh57@naver.com", "password123@", "010-9999-9999")
         `when`(userRepository.findByEmail(userDto.email)).thenReturn(user)
-        userDto.mobileNumber = "010-9999-9999"
-        userDto.password = "password123@"
-        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(userDto)
+        `when`(modelMapper.map(user, UserDto::class.java)).thenReturn(updated)
 
         val updateUserInfo = userService.update(userDto)
         assertThat(updateUserInfo).isNotNull

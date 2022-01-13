@@ -59,8 +59,7 @@ open class ScrapServiceTest {
             "60",
             "1000",
             "100",
-            "none",
-            user)
+            "none")
         eventDto = EventDto(
             1L, "title 1",
             LocalDateTime.of(2022, 1, 7, 11, 19),

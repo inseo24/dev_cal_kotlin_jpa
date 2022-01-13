@@ -55,7 +55,7 @@ internal class EventControllerITest {
             "60",
             "1000",
             "100",
-            "none", user)
+            "none")
 
         userRepository.save(user)
     }
@@ -66,7 +66,7 @@ internal class EventControllerITest {
         val eventList: List<Event> =
             listOf(event, Event("title 2", LocalDateTime.of(2022, 1, 7, 11, 19),
                 LocalDateTime.of(2022, 1, 8, 19, 19),
-                "uu", "60min", "1000", "100", "none", user))
+                "uu", "60min", "1000", "100", "none"))
         eventRepository.saveAll(eventList)
         val response: ResultActions = mockMvc.perform(get("/event"))
 
@@ -106,7 +106,7 @@ internal class EventControllerITest {
         val eventList: List<Event> =
             listOf(event, Event("title 2", LocalDateTime.of(2022, 1, 7, 11, 19),
                 LocalDateTime.of(2022, 1, 8, 19, 19),
-                "uu", "60min", "1000", "100", "none", user))
+                "uu", "60min", "1000", "100", "none"))
         eventRepository.saveAll(eventList)
 
         val response: ResultActions = mockMvc.perform(get("/event/title"))

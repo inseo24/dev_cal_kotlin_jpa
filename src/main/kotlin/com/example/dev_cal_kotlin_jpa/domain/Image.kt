@@ -5,11 +5,11 @@ import javax.persistence.*
 @Entity
 @Table(name = "image")
 class Image(
-    var name: String,
-    var type: String,
+    val name: String,
+    val type: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board")
-    var board: Board,
+    val board: Board,
 
     ) : BaseEntity()

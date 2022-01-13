@@ -42,8 +42,7 @@ open class EventServiceTest {
             "60",
             "1000",
             "100",
-            "none",
-            user)
+            "none")
         eventDto = EventDto(
             1L, "title 1",
             LocalDateTime.of(2022, 1, 7, 11, 19),
@@ -79,8 +78,7 @@ open class EventServiceTest {
                 "60",
                 "1000",
                 "100",
-                "none",
-                user))
+                "none"))
         `when`(modelMapper.map(event, EventDto::class.java)).thenReturn(eventDto)
         `when`(eventRepository.findAll()).thenReturn(eventList)
 
@@ -100,8 +98,7 @@ open class EventServiceTest {
                 "60",
                 "1000",
                 "100",
-                "none",
-                user))
+                "none"))
         `when`(modelMapper.map(event, EventDto::class.java)).thenReturn(eventDto)
         `when`(eventRepository.findAllEventsByTitleContains(event.title)).thenReturn(eventList)
         eventRepository.saveAll(eventList)

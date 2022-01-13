@@ -7,10 +7,10 @@ import javax.persistence.*
 @Table(name = "user")
 class User(
 
-    var name: String,
+    val name: String,
 
     @Column(nullable = false, unique = true)
-    var email: String,
+    val email: String,
 
     var password: String,
 

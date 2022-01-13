@@ -39,8 +39,7 @@ class ScrapRepositoryTest {
             "60",
             "1000",
             "100",
-            "none",
-            user)
+            "none")
         scrap = Scrap(event, user)
     }
 
