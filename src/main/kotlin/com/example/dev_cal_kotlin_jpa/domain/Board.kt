@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "board")
 class Board(
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user")
     var user: User,
 

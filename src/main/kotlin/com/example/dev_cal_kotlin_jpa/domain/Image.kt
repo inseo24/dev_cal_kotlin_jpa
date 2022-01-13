@@ -8,7 +8,7 @@ class Image(
     val name: String,
     val type: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "board")
     val board: Board,
 
