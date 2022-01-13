@@ -39,7 +39,6 @@ internal class EventControllerITest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    lateinit var eventDto: EventDto
     lateinit var event: Event
     lateinit var user: User
 
@@ -59,19 +58,7 @@ internal class EventControllerITest {
             "none", user)
 
         userRepository.save(user)
-
-        eventDto = EventDto(
-            1L, "title",
-            LocalDateTime.of(2022, 1, 7, 11, 19),
-            LocalDateTime.of(2022, 1, 8, 19, 19),
-            "host 1",
-            "60",
-            "1000",
-            "100",
-            "none",
-        )
     }
-
 
     @Test
     @DisplayName("event findAll 로직 검증")
@@ -91,6 +78,16 @@ internal class EventControllerITest {
     @Test
     @DisplayName("event create 로직 검증")
     fun create() {
+        val eventDto = EventDto(
+            1L, "title",
+            LocalDateTime.of(2022, 1, 7, 11, 19),
+            LocalDateTime.of(2022, 1, 8, 19, 19),
+            "host 1",
+            "60",
+            "1000",
+            "100",
+            "none",
+        )
         val response: ResultActions = mockMvc.perform(post("/event")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(eventDto)))

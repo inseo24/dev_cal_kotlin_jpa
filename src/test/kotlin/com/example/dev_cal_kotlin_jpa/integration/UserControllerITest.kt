@@ -33,18 +33,17 @@ internal class UserControllerITest {
     lateinit var objectMapper: ObjectMapper
 
     lateinit var user: User
-    lateinit var userDto: UserDto
 
     @BeforeEach
     fun setup() {
         userRepository.deleteAll()
         user = User("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
-        userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
     }
 
     @Test
     @DisplayName("user 계정 생성")
     fun create() {
+        val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
         val response: ResultActions = mockMvc.perform(post("/user")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(userDto)))
@@ -65,16 +64,16 @@ internal class UserControllerITest {
 
         response.andExpect(status().isOk)
             .andDo(print())
-            .andExpect(jsonPath("$['data']['email']", `is`(userDto.email)))
-            .andExpect(jsonPath("$['data']['name']", `is`(userDto.name)))
-            .andExpect(jsonPath("$['data']['password']", `is`(userDto.password)))
-            .andExpect(jsonPath("$['data']['mobileNumber']", `is`(userDto.mobileNumber)))
+            .andExpect(jsonPath("$['data']['email']", `is`(savedUser.email)))
+            .andExpect(jsonPath("$['data']['name']", `is`(savedUser.name)))
+            .andExpect(jsonPath("$['data']['password']", `is`(savedUser.password)))
+            .andExpect(jsonPath("$['data']['mobileNumber']", `is`(savedUser.mobileNumber)))
     }
 
     @Test
     @DisplayName("user 정보 조회 - 실패")
     fun findOneReturn400() {
-        val response: ResultActions = mockMvc.perform(get("/user/email/{email}", userDto.email))
+        val response: ResultActions = mockMvc.perform(get("/user/email/{email}", user.email))
 
         response.andExpect(status().isBadRequest)
             .andDo(print())

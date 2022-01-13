@@ -44,11 +44,6 @@ internal class CommentControllerITest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    lateinit var userDto: UserDto
-    lateinit var boardDto: BoardDto
-    lateinit var commentDto: CommentDto
-
-
     lateinit var board: Board
     lateinit var user: User
     lateinit var comment: Comment
@@ -58,16 +53,13 @@ internal class CommentControllerITest {
         commentRepository.deleteAll()
         boardRepository.deleteAll()
         userRepository.deleteAll()
+
         user = User("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
         board = Board(user, "title 1", "content 1")
         comment = Comment("comment 1", user, board)
 
         userRepository.save(user)
         boardRepository.save(board)
-
-        userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
-        boardDto = BoardDto(1L, "title 1", "content 1", userDto)
-        commentDto = CommentDto(1L, userDto, "comment 1", boardDto)
     }
 
     @Test
@@ -96,6 +88,9 @@ internal class CommentControllerITest {
     @Test
     @DisplayName("comment create 로직 검증")
     fun create() {
+        val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        val boardDto = BoardDto(1L, "title 1", "content 1", userDto)
+        val commentDto = CommentDto(1L, userDto, "comment 1", boardDto)
         val savedComment = commentRepository.save(comment)
         val response: ResultActions = mockMvc.perform(post("/comment/{email}/{boardId}", user.email, savedComment.id)
             .contentType(MediaType.APPLICATION_JSON)
@@ -109,6 +104,9 @@ internal class CommentControllerITest {
     @Test
     @DisplayName("comment update 로직 검증")
     fun update() {
+        val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        val boardDto = BoardDto(1L, "title 1", "content 1", userDto)
+
         val savedComment = commentRepository.save(comment)
         val updatedComment = CommentDto(1L, userDto, "comment update", boardDto)
         val response: ResultActions = mockMvc.perform(put("/comment/{email}/{id}", userDto.email, savedComment.id)
@@ -124,7 +122,8 @@ internal class CommentControllerITest {
     @DisplayName("comment delete 로직 검증")
     fun delete() {
         val savedComment = commentRepository.save(comment)
-        val response: ResultActions = mockMvc.perform(delete("/comment/{email}/{id}", userDto.email, savedComment.id))
+        val response: ResultActions =
+            mockMvc.perform(delete("/comment/{email}/{id}", savedComment.user.email, savedComment.id))
 
         response.andExpect(status().isOk)
             .andDo(print())

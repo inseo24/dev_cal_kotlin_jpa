@@ -46,12 +46,6 @@ internal class ScrapControllerITest {
     @Autowired
     lateinit var objectMapper: ObjectMapper
 
-    lateinit var eventDto: EventDto
-
-    lateinit var userDto: UserDto
-
-    lateinit var scrapDto: ScrapDto
-
     lateinit var user: User
     lateinit var event: Event
     lateinit var scrap: Scrap
@@ -74,9 +68,13 @@ internal class ScrapControllerITest {
 
         userRepository.save(user)
         scrap = Scrap(event, user)
+    }
 
-        userDto = UserDto("seoin", "jnh123@naver.com", "1234@tjdls", "010-1234-1231")
-        eventDto = EventDto(
+    @Test
+    @DisplayName("scarp 로직 검증")
+    fun scrap() {
+        val userDto = UserDto("seoin", "jnh123@naver.com", "1234@tjdls", "010-1234-1231")
+        val eventDto = EventDto(
             1L, "title 1",
             LocalDateTime.of(2022, 1, 7, 11, 19),
             LocalDateTime.of(2022, 1, 8, 19, 19),
@@ -86,12 +84,8 @@ internal class ScrapControllerITest {
             "100",
             "none",
         )
-        scrapDto = ScrapDto(eventDto,userDto)
-    }
+        val scrapDto = ScrapDto(eventDto,userDto)
 
-    @Test
-    @DisplayName("scarp 로직 검증")
-    fun scrap() {
         val savedEvent = eventRepository.save(event)
 
         val response: ResultActions = mockMvc.perform(post("/scrap/{email}/{eventId}", scrap.user.email, savedEvent.id)
@@ -105,6 +99,19 @@ internal class ScrapControllerITest {
     @Test
     @DisplayName("delete scrap 로직 검증")
     fun deleteScrap() {
+        val userDto = UserDto("seoin", "jnh123@naver.com", "1234@tjdls", "010-1234-1231")
+        val eventDto = EventDto(
+            1L, "title 1",
+            LocalDateTime.of(2022, 1, 7, 11, 19),
+            LocalDateTime.of(2022, 1, 8, 19, 19),
+            "host 1",
+            "60",
+            "1000",
+            "100",
+            "none",
+        )
+        val scrapDto = ScrapDto(eventDto,userDto)
+
         val savedEvent = eventRepository.save(event)
         scrapRepository.save(scrap)
         val response: ResultActions = mockMvc.perform(delete("/scrap/{email}/{eventId}", scrap.user.email, savedEvent.id)

@@ -40,24 +40,23 @@ internal class BoardControllerITest {
 
     lateinit var board: Board
     lateinit var user: User
-    lateinit var userDto: UserDto
-    lateinit var boardDto: BoardDto
 
     @BeforeEach
     fun setup() {
         boardRepository.deleteAll()
         userRepository.deleteAll()
-        userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
-        boardDto = BoardDto(1L, "title 1", "content 1", userDto)
 
         user = User("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
         board = Board(user, "title 1", "content 1")
+
         userRepository.save(user)
     }
 
     @Test
     @DisplayName("board create 로직을 검증")
     fun create() {
+        val userDto = UserDto("인서", "jnh57@naver.com", "123tjdls@", "010-2124-1281")
+        val boardDto = BoardDto(1L, "title 1", "content 1", userDto)
         val savedBoard = boardRepository.save(board)
         val response: ResultActions = mockMvc.perform(post("/board/{email}", savedBoard.user.email)
             .contentType(MediaType.APPLICATION_JSON)
@@ -90,14 +89,14 @@ internal class BoardControllerITest {
 
         response.andExpect(status().isOk)
             .andDo(print())
-            .andExpect(jsonPath("$['data']['title']", `is`(boardDto.title)))
-            .andExpect(jsonPath("$['data']['content']", `is`(boardDto.content)))
+            .andExpect(jsonPath("$['data']['title']", `is`(savedBoard.title)))
+            .andExpect(jsonPath("$['data']['content']", `is`(savedBoard.content)))
     }
 
     @Test
     @DisplayName("board findOne 조회 - 실패")
     fun findOneReturn404() {
-        val response: ResultActions = mockMvc.perform(get("/board/{id}", boardDto.id))
+        val response: ResultActions = mockMvc.perform(get("/board/{id}", 1L))
 
         response.andExpect(status().isBadRequest)
             .andDo(print())
