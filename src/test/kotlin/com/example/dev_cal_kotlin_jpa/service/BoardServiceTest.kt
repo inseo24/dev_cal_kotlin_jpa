@@ -73,7 +73,7 @@ open class BoardServiceTest {
 
     @Test
     @DisplayName("findAll board 로직 검증")
-    fun findAllUsers() {
+    fun findAllBoards() {
         val boardList = listOf(board, Board(user, "title 2", "content 2"))
         `when`(modelMapper.map(board, BoardDto::class.java)).thenReturn(boardDto)
         `when`(boardRepository.findAll()).thenReturn(boardList)
@@ -84,8 +84,21 @@ open class BoardServiceTest {
     }
 
     @Test
-    @DisplayName("delete user 정보 검증")
-    fun deleteUserInfo() {
+    @DisplayName("update board 로직 검증")
+    fun updateBoard() {
+        val updated = BoardDto(board.id, "title update", "content update", userDto)
+        `when`(boardRepository.findById(board.id)).thenReturn(Optional.of(board))
+        `when`(modelMapper.map(board, BoardDto::class.java)).thenReturn(updated)
+
+        val response = boardService.update(board.id, updated)
+
+        assertThat(response).isNotNull
+        println(response.body!!.data)
+    }
+
+    @Test
+    @DisplayName("delete board 정보 검증")
+    fun deleteBoard() {
         `when`(boardRepository.findById(board.id)).thenReturn(Optional.of(board))
         doNothing().`when`(boardRepository).delete(board)
         boardService.delete(user.id)

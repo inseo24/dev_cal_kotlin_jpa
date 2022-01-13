@@ -103,6 +103,22 @@ internal class BoardControllerITest {
     }
 
     @Test
+    @DisplayName("board update 로직 검증")
+    fun update() {
+        val savedBoard = boardRepository.save(board)
+        val updatedBoard = Board(user, "title update", "content update")
+
+        val response: ResultActions = mockMvc.perform(put("/board/{id}", savedBoard.id)
+            .content(objectMapper.writeValueAsString(updatedBoard))
+            .contentType(MediaType.APPLICATION_JSON))
+
+        response.andExpect(status().isOk)
+            .andDo(print())
+            .andExpect(jsonPath("$['data']['title']", `is`(updatedBoard.title)))
+            .andExpect(jsonPath("$['data']['content']", `is`(updatedBoard.content)))
+    }
+
+    @Test
     @DisplayName("board delete 로직을 검증")
     fun delete() {
         val savedBoard = boardRepository.save(board)

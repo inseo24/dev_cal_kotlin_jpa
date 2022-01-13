@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 import kotlin.RuntimeException
 
 @Service
@@ -43,6 +44,18 @@ class BoardService(
         val result = boardRepository.findById(id).orElseThrow()
         val response = ResponseDto<BoardDto>().apply {
             this.data = modelMapper.map(result, BoardDto::class.java)
+            this.status = "200 OK"
+        }
+        return ResponseEntity.ok().body(response)
+    }
+
+    @Transactional
+    fun update(id: Long, boardDto: BoardDto): ResponseEntity<ResponseDto<BoardDto>> {
+        val board = boardRepository.findById(id).orElseThrow()
+        board.title = boardDto.title
+        board.content = boardDto.content
+        val response = ResponseDto<BoardDto>().apply {
+            this.data = modelMapper.map(board, BoardDto::class.java)
             this.status = "200 OK"
         }
         return ResponseEntity.ok().body(response)

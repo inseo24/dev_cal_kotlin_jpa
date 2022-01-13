@@ -32,6 +32,11 @@ class BoardController(
         return boardService.findOne(id)
     }
 
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Long, @RequestBody boardDto: BoardDto): ResponseEntity<ResponseDto<BoardDto>> {
+        return boardService.update(id, boardDto)
+    }
+
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): ResponseEntity<HttpStatus> {
         return boardService.delete(id)

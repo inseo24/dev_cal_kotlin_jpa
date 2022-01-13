@@ -108,12 +108,12 @@ open class CommentServiceTest {
         val response = commentService.update(commentDto, user.email, comment.id)
 
         assertThat(response).isNotNull
-        println(response.body?.data)
+        println(response.body!!.data)
     }
 
     @Test
     @DisplayName("delete comment 정보 검증")
-    fun deleteUserInfo() {
+    fun deleteComment() {
         `when`(userRepository.findByEmail(userDto.email)).thenReturn(user)
         `when`(commentRepository.findById(comment.id)).thenReturn(Optional.of(comment))
         if (user == comment.user){

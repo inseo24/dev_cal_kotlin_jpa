@@ -58,7 +58,7 @@ open class EventServiceTest {
 
     @Test
     @DisplayName("event entity 1개를 저장한다")
-    fun saveTest() {
+    fun saveEvent() {
         `when`(modelMapper.map(eventDto, Event::class.java)).thenReturn(event)
         `when`(modelMapper.map(event, EventDto::class.java)).thenReturn(eventDto)
         `when`(eventRepository.save(event)).thenReturn(event)

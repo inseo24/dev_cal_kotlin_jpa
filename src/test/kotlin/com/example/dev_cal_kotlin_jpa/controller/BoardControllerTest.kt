@@ -102,6 +102,26 @@ internal class BoardControllerTest {
     }
 
     @Test
+    @DisplayName("board update 로직 검증")
+    fun update() {
+        val updatedBoard = BoardDto(boardDto.id, "title update", "content update", userDto)
+        `when`(boardService.update(boardDto.id!!, updatedBoard)).thenReturn(ResponseEntity<ResponseDto<BoardDto>>(
+            ResponseDto("200 OK",
+                updatedBoard),
+            HttpStatus.OK))
+
+        val response: ResultActions = mockMvc.perform(put("/board/{id}", boardDto.id)
+            .content(objectMapper.writeValueAsString(updatedBoard))
+            .contentType(MediaType.APPLICATION_JSON))
+
+        response.andExpect(status().isOk)
+            .andDo(print())
+            .andExpect(jsonPath("$['data']['title']", `is`(updatedBoard.title)))
+            .andExpect(jsonPath("$['data']['content']", `is`(updatedBoard.content)))
+    }
+
+
+    @Test
     @DisplayName("board delete 로직을 검증")
     fun delete() {
         `when`(boardService.delete(boardDto.id!!)).thenReturn(ResponseEntity(HttpStatus.OK))
